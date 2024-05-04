@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 export function Footer() {
   const hour = new Date().getHours();
-  console.log(hour);
+  // console.log(hour);
   const openHour = 12;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour < closeHour;
@@ -23,7 +22,7 @@ export function Footer() {
         <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
-          We're hapy to welcome you betweern {openHour}:00 and {closeHour}:00.
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00.
         </p>
       )}
     </footer>
