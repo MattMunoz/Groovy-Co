@@ -208,6 +208,8 @@ body {
 }
 
 .food div {
+  max-width: 400px;
+  min-width: 40px;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -277,6 +279,7 @@ body {
   width: 50px;
   background-color: #edc84b;
   border: none;
+  align-items: end;
 }
 
 .food button:hover {
@@ -311,10 +314,13 @@ body {
   font-size: medium;
 }
 
-/*
-SPACING SYSTEM (px)
-2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
+.stars {
+  display: block;
+  float: left;
+}
 
-FONT SIZE SYSTEM (px)
-10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 /52 / 62 / 74 / 86 / 98
-*/
+.food select {
+  margin-left: 5%;
+  height: 30px;
+  width: 50px;
+}

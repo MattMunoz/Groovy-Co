@@ -1,6 +1,7 @@
 import React from "react";
+import { useState } from "react";
 
-export function Menu() {
+export function Menu({ onAddItems }) {
   const foods = [
     {
       name: "Focaccia",
@@ -55,10 +56,9 @@ export function Menu() {
       {numfoods > 0 ? (
         <>
           <p>Delicious food curated by our two world renowned chefs.</p>
-
           <ul className="foods">
             {foods.map((food) => (
-              <Food foodObj={food} key={food.name} />
+              <Food foodObj={food} addItems={onAddItems} key={food.name} />
             ))}
           </ul>
         </>
@@ -81,21 +81,49 @@ export function Menu() {
     </main>
   );
 }
-function Food({ foodObj }) {
+function Food({ foodObj, addItems }) {
   //if (foodObj.soldOut) return null;
+
+  const name = foodObj.name;
+  const [quantity, setQuantity] = useState(1);
+
+  function handleClick(e) {
+    e.preventDefault();
+
+    const price = foodObj.price * quantity;
+
+    const orderItem = { name, price, quantity };
+
+    addItems(orderItem);
+  }
+
   return (
     <li className={`food ${foodObj.soldOut ? "sold-out" : ""}`}>
       <img src={foodObj.photoName} alt={foodObj.name} />
       <div>
         <h3>{foodObj.name}</h3>
         <p>{foodObj.ingredients}</p>
-        <span>
+        <span className="btnRating">
           {foodObj.soldOut ? (
             "SOLD OUT"
           ) : (
-            <button>
+            <button onClick={handleClick}>
               $ <strong>{foodObj.price}</strong>
             </button>
+          )}
+          {foodObj.soldOut ? (
+            <div></div>
+          ) : (
+            <select
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+            >
+              {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                <option value={num} key={num}>
+                  {num}
+                </option>
+              ))}
+            </select>
           )}
         </span>
       </div>

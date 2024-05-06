@@ -8,12 +8,19 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { useUserStore } from "../Global/userState";
 
-
 export default function MainMenu() {
   // const currTime = new Date().toLocaleTimeString();
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const {updateUsername, updateRole} = useUserStore()
+  const { updateUsername, updateRole } = useUserStore();
+  const [orderItems, setOrderItems] = useState([]);
+
+  function handleAddItems(item) {
+    setOrderItems((orderItems) => [...orderItems, item]);
+
+    console.log(orderItems);
+  }
+
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -28,7 +35,9 @@ export default function MainMenu() {
       return status
         ? (toast(`Hello ${user.role} ${user.username}`, {
             position: "top-right",
-          }), updateUsername(user.username), updateRole(user.role))
+          }),
+          updateUsername(user.username),
+          updateRole(user.role))
         : (removeCookie("token"), navigate("/login"));
     };
     verifyCookie();
@@ -37,8 +46,8 @@ export default function MainMenu() {
   return (
     <div className="main">
       <div className="contatiner">
-        <Header/>
-        <Menu />
+        <Header />
+        <Menu onAddItems={handleAddItems} />
         <Footer />
       </div>
       <div className="bar">
