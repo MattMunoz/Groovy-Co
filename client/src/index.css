@@ -324,3 +324,54 @@ body {
   height: 30px;
   width: 50px;
 }
+
+.order {
+  align-content: center;
+}
+
+.orderitems {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.itemname {
+  font-size: 15px;
+  margin-right: 150px;
+}
+
+.orderitem p {
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 18px;
+  width: 250px;
+}
+
+.name {
+  text-align: left;
+  width: 75%;
+}
+
+.price {
+  text-align: right;
+  width: 25%;
+  font-weight: bold;
+}
+
+.line {
+  background-color: #000000;
+}
+
+select {
+  align-items: end;
+}
+
+.placeorder {
+  width: 35%;
+}
+
+.placeorder input {
+  width: 100%;
+  height: 35px;
+  font-size: 20px;
+}

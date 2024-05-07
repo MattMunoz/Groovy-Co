@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   const hour = new Date().getHours();
@@ -17,7 +18,7 @@ export function Footer() {
   //    </p>
   //  );
   return (
-    <footer className="footer">
+    <footer className="footer" style={{ marginBottom: "20px" }}>
       {isOpen ? (
         <Order closeHour={closeHour} openHour={openHour} />
       ) : (
@@ -36,7 +37,9 @@ function Order({ closeHour, openHour }) {
       <p>
         We're open from {openHour}:00 until {closeHour}:00.
       </p>
-      <button className="btn">Checkout</button>
+      <button className="btn">
+        <Link to={"/checkout"}>Checkout</Link>
+      </button>
     </div>
   );
 }

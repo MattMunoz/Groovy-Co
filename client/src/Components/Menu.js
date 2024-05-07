@@ -117,6 +117,7 @@ function Food({ foodObj, addItems }) {
             <select
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
+              style={{ textAlign: "auto" }}
             >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
                 <option value={num} key={num}>
