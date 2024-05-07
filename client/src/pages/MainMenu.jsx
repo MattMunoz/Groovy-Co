@@ -42,15 +42,18 @@ export default function MainMenu() {
   }, [cookies, navigate, removeCookie, updateUsername, updateId, updateRole]);
 
   return (
-    <div className="main">
-      <div className="contatiner">
+    <div style={{position: "relative",
+      minHeight: "100vh"}}>
+    <div className="main" >
+
         <Header />
+        <div style={{paddingBottom:"8%"}}>
         <Menu onAddItems={handleAddItems} />
-        <Footer />
-      </div>
-      <div className="bar">
-        <strong>Groovy Co.</strong>
-      </div>
+        </div>
+        
+
+    </div>
+    <Footer />
     </div>
   );
 }

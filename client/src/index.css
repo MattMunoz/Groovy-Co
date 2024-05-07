@@ -161,10 +161,17 @@ body {
 }
 .input {
   text-align: right;
+  padding: 5px;
   border: 0;
 }
 .input:focus {
   outline: none;
+}
+
+.textBox {
+  text-align: right;
+  border-radius: 5px;
+  padding: 5px
 }
 
 .header h2 {
@@ -293,6 +300,9 @@ body {
   font-size: 1.4rem;
   text-align: center;
   margin-top: 55px;
+  position: absolute;
+  bottom: 0;
+  width:95%
 }
 
 .order {
@@ -432,4 +442,17 @@ select {
   width: 100%;
   height: 35px;
   font-size: 20px;
+}
+
+.ingredients-container {
+  display:grid;
+
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+
+}
+.ingredients-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

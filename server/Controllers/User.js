@@ -37,4 +37,12 @@ module.exports.Withdraw = async (req, res, next) => {
     console.error(error);
   }
 };
+// to add:
+// current order information (for pickup / delivery) --> user completes order and clears this
+// standing: -2 -1 0 1 2 --> goes up or down if user gets compliments or complaints
+// Need ingredient model
+// each entry is an ingredient:
+// name, description, quantity
+// each time an order is made, subtract quantites from the DB. 
+// Chefs can create an order of ingredients for food importers to complete, adding ingredients back into the stock 
 

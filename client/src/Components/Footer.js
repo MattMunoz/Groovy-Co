@@ -6,7 +6,8 @@ export function Footer() {
   // console.log(hour);
   const openHour = 12;
   const closeHour = 22;
-  const isOpen = hour >= openHour && hour < closeHour;
+  // const isOpen = hour >= openHour && hour < closeHour;
+  const isOpen = true
 
   //if (hour >= openHour && hour < closeHour) alert("We are currenly open!");
   //else alert("Sorry, we are closed");
@@ -18,7 +19,8 @@ export function Footer() {
   //    </p>
   //  );
   return (
-    <footer className="footer" style={{ marginBottom: "20px" }}>
+    <footer className="footer">
+
       {isOpen ? (
         <Order closeHour={closeHour} openHour={openHour} />
       ) : (
@@ -26,6 +28,9 @@ export function Footer() {
           We're happy to welcome you between {openHour}:00 and {closeHour}:00.
         </p>
       )}
+      <div className="bar">
+        <strong>Groovy Co.</strong>
+      </div>
     </footer>
   );
   //return React.createElement("footer", null, "We're currently open.");
@@ -33,13 +38,14 @@ export function Footer() {
 function Order({ closeHour, openHour }) {
   return (
     <div className="order">
-      {" "}
+
       <p>
         We're open from {openHour}:00 until {closeHour}:00.
       </p>
-      <button className="btn">
-        <Link to={"/checkout"}>Checkout</Link>
-      </button>
+      
+        <Link className="btn" to={"/checkout"}>Checkout</Link>
+      
     </div>
+    
   );
 }

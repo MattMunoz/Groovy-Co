@@ -98,6 +98,7 @@ function Food({ foodObj, addItems }) {
   }
 
   return (
+    <div style={{pb:"5%"}}>
     <li className={`food ${foodObj.soldOut ? "sold-out" : ""}`}>
       <img src={foodObj.photoName} alt={foodObj.name} />
       <div>
@@ -129,5 +130,7 @@ function Food({ foodObj, addItems }) {
         </span>
       </div>
     </li>
+  
+    </div>
   );
 }

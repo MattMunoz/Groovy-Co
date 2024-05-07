@@ -5,8 +5,10 @@ import { Navigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Ingredients from "../Components/Ingredients";
+
 export default function Options(){
-  const {username, id, balance, updateBalance} = useUserStore(); 
+  const {username, id, balance, updateBalance, role} = useUserStore(); 
   // console.log(username, id)
   const [inputAmount, setInputAmount] = useState(0);
   const state = {submitButton: ""}
@@ -30,6 +32,7 @@ export default function Options(){
           toast.clearWaitingQueue();
           toast.success("$"+inputAmount+ " deposited", {position:"bottom-left",hideProgressBar:true})
           state.submitButton = "";
+          setInputAmount(0)
         }
       }
       catch(error){
@@ -61,6 +64,7 @@ export default function Options(){
             updateBalance(user.balance)
             toast.success("$"+inputAmount+ " withdrawn", {position:"bottom-left",hideProgressBar:true})
             state.submitButton = "";
+            setInputAmount(0)
           }
         }
         catch(error){
@@ -73,7 +77,7 @@ export default function Options(){
 
   return (
     id !== null ? 
-    <div className="Options">
+    <div >
         <Header/>
         <form className="container" onSubmit={balanceSubmit }>
           <label>Amount</label>
@@ -87,11 +91,19 @@ export default function Options(){
           <input type="submit" value="Withdraw"  onClick={()=> state.submitButton = "withdraw"}/>
           <input type="submit" value="Deposit" onClick={()=> state.submitButton = "deposit"}/>
         </form>
+        <br />
+        {role === "Chef" ? 
+          <div>
+            You are chef  
+            <Ingredients />
+           </ div> : 
+           <div> 
+            You are not chef 
+            </div>}
+
         <ToastContainer limit={3} autoClose={2000} />
         <Footer />
-      <div className="bar">
-        <strong>Groovy Co.</strong>
-      </div>
+      
     </div> 
     :
     <Navigate to="/login" />

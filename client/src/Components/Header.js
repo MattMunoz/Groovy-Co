@@ -19,7 +19,7 @@ export function Header() {
     <header className="header">
       {/* <h1 >Groovy Co.</h1> */}
       <Link className="logo" to="/">Groovy Co.</Link>
-      <h3>Welcome, {role} {username}</h3>
+      <h2>Welcome, {role} {username}</h2>
       <h2>Balance: ${balance}</h2>
       {/* <h5>id: {id} </h5> */} 
       <div className="list">
