@@ -13,7 +13,7 @@ module.exports.Signup = async (req, res, next) => {
     if(!role){
       role = "Customer"
     }
-    const user = await User.create({ email, password, username, role, createdAt });
+    const user = await User.create({ email, password, username, role, balance: 0, createdAt });
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
       withCredentials: true,
@@ -49,7 +49,7 @@ module.exports.Login = async (req, res, next) => {
     });
     res
       .status(201)
-      .json({ message: "User logged in successfully", success: true, user});
+      .json({ message: "User logged in successfully", success: true, user, id: user._id});
     next();
   } catch (error) {
     console.error(error);

@@ -1,15 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { useNavigate, Link } from "react-router-dom";
+import { useCookies} from "react-cookie";
 import { useUserStore } from "../Global/userState";
 
-export function Header({ user }) {
+export function Header() {
   //const styl = { color: "red", fontSize: "48px", textTransform: "uppercase" };
   //const styl = {};
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
-  const { username, role, clearUserStore } = useUserStore();
-
+  const [cookies, removeCookie] = useCookies([])
+  const {username, role, clearUserStore, id, balance} = useUserStore()
   const Logout = () => {
     // console.log(cookies)
     removeCookie("token");
@@ -18,14 +17,15 @@ export function Header({ user }) {
   };
   return (
     <header className="header">
-      <h1>Groovy Co.</h1>
-      <h3>
-        {role}: {username}
-      </h3>
-      <h2>Balance: XXX</h2>
-      <button className="logout" onClick={Logout}>
-        Logout
-      </button>
+      {/* <h1 >Groovy Co.</h1> */}
+      <Link className="logo" to="/">Groovy Co.</Link>
+      <h3>Welcome, {role} {username}</h3>
+      <h2>Balance: ${balance}</h2>
+      {/* <h5>id: {id} </h5> */} 
+      <div className="list">
+      <button className="logout" onClick={Logout}>Logout</button>
+      <Link className = "logout" to="/options">Options</Link>
+      </div>
     </header>
   );
 }

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Login, Signup } from "./pages";
+import { Login, Signup, Options } from "./pages";
 
 import React from "react";
 import "./index.css";
@@ -14,6 +14,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/" element={<MainMenu />} />
+        <Route path="/options" element = {<Options />} />
       </Routes>
     </div>
   );

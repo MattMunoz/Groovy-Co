@@ -1,7 +1,7 @@
 import { Header } from "../Components/Header";
 import { Menu } from "../Components/Menu";
 import { Footer } from "../Components/Footer";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -12,7 +12,7 @@ export default function MainMenu() {
   // const currTime = new Date().toLocaleTimeString();
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const { updateUsername, updateRole } = useUserStore();
+  const { updateUsername, updateRole, updateId, updateBalance } = useUserStore();
   const [orderItems, setOrderItems] = useState([]);
 
   function handleAddItems(item) {
@@ -31,17 +31,15 @@ export default function MainMenu() {
         {},
         { withCredentials: true }
       );
-      const { status, user } = data;
+      const { status, user, id} = data;
       return status
         ? (toast(`Hello ${user.role} ${user.username}`, {
             position: "top-right",
-          }),
-          updateUsername(user.username),
-          updateRole(user.role))
+          }), updateUsername(user.username), updateRole(user.role), updateId(id), updateBalance(user.balance))
         : (removeCookie("token"), navigate("/login"));
     };
     verifyCookie();
-  }, [cookies, navigate, removeCookie]);
+  }, [cookies, navigate, removeCookie, updateUsername, updateId, updateRole]);
 
   return (
     <div className="main">
