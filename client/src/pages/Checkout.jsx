@@ -39,6 +39,9 @@ export default function Checkout() {
     <div>
       <Header />
       <Payment />
+      <div className="bar">
+        <strong>Groovy Co.</strong>
+      </div>
     </div>
   );
 }
