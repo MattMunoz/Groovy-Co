@@ -8,7 +8,7 @@ import axios from "axios";
 import Ingredients from "../Components/Ingredients";
 
 export default function Options(){
-  const {username, id, balance, updateBalance, role} = useUserStore(); 
+  const { id, balance, updateBalance, role} = useUserStore(); 
   // console.log(username, id)
   const [inputAmount, setInputAmount] = useState(0);
   const state = {submitButton: ""}

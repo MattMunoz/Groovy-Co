@@ -19,13 +19,20 @@ export function Header() {
     <header className="header">
       {/* <h1 >Groovy Co.</h1> */}
       <Link className="logo" to="/">Groovy Co.</Link>
+      {id && <>
       <h2>Welcome, {role} {username}</h2>
-      <h2>Balance: ${balance}</h2>
+      <h2>Balance: ${balance}</h2> </>
+      }
       {/* <h5>id: {id} </h5> */} 
+      {id ? 
       <div className="list">
-      <button className="logout" onClick={Logout}>Logout</button>
-      <Link className = "logout" to="/options">Options</Link>
-      </div>
+        
+      <button className="header-button" onClick={Logout}>Logout</button>
+      <Link className = "header-button" to="/options">Options</Link>
+      </div> :
+      <Link className="header-button" to="/login">Login</Link>
+        }
+      
     </header>
   );
 }

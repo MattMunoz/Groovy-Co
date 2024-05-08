@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 export default function Ingredients() {
   const [ingredient, setIngredient] = useState("");
   const [ingredientAmount, setIngredientAmount] = useState(0);
@@ -33,7 +33,7 @@ export default function Ingredients() {
             quantity: ingredientAmount,
           }
         );
-        // console.log(data);
+        console.log(data);
         let found = false;
         const newIngredients = allIngredients.map((item) => {
           if (item.name === ingredient) {
@@ -81,7 +81,7 @@ export default function Ingredients() {
 
             setAllIngredients(newIngredients);
 
-            // console.log(data);
+            console.log(data);
           } else {
             toast.clearWaitingQueue();
             toast.error("There isn't enough of that ingredient!", {
@@ -131,13 +131,17 @@ export default function Ingredients() {
         />
       </form>
       <br />
+      
       <div className="ingredients-container">
+        <div className="ingredients-item"><b>Ingredient Name:</b></div>
+        <div className="ingredients-item"><b>Quantity:</b></div>
         {allIngredients?.map((element) => (
-          <div key={element.name}>
+            <>
             <div className="ingredients-item"> {element.name} </div>
             <div className="ingredients-item"> {element.quantity} </div>
-          </div>
+            </>
         ))}
+      
       </div>
     </div>
   );

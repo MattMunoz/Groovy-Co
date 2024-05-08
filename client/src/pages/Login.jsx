@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { Header } from "../Components/Header";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -58,6 +59,8 @@ export default function Login() {
   };
 
   return (
+    <>
+    <Header />
     <div className="login">
       <div className="form_container">
         <h2>Login Account</h2>
@@ -90,5 +93,6 @@ export default function Login() {
         <ToastContainer />
       </div>
     </div>
+    </>
   );
 }

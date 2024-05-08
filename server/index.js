@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
 const userRoute = require("./Routes/UserRoute")
 const ingredientRoute = require("./Routes/IngredientRoute")
+const complaintRoute = require("./Routes/ComplaintRoute")
 const { MONGO_URL, PORT } = process.env;
 
 mongoose
@@ -32,3 +33,4 @@ app.use(express.json());
 app.use("/", authRoute);
 app.use("/", userRoute);
 app.use("/", ingredientRoute);
+app.use("/", complaintRoute)

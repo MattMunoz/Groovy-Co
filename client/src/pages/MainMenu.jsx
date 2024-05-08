@@ -36,10 +36,10 @@ export default function MainMenu() {
         ? (toast(`Hello ${user.role} ${user.username}`, {
             position: "top-right",
           }), updateUsername(user.username), updateRole(user.role), updateId(id), updateBalance(user.balance))
-        : (removeCookie("token"), navigate("/login"));
+        : (removeCookie("token"));
     };
     verifyCookie();
-  }, [cookies, navigate, removeCookie, updateUsername, updateId, updateRole]);
+  }, [cookies, navigate, removeCookie, updateUsername, updateId, updateRole, updateBalance]);
 
   return (
     <div style={{position: "relative",
@@ -47,7 +47,7 @@ export default function MainMenu() {
     <div className="main" >
 
         <Header />
-        <div style={{paddingBottom:"8%"}}>
+        <div style={{paddingBottom:"15%"}}>
         <Menu onAddItems={handleAddItems} />
         </div>
         

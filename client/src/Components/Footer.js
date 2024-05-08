@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export function Footer() {
-  const hour = new Date().getHours();
+  // const hour = new Date().getHours();
   // console.log(hour);
   const openHour = 12;
   const closeHour = 22;
