@@ -58,3 +58,15 @@ module.exports.CloseComplaint = async (req, res, next) => {
     console.error(error);
   }
 };
+
+module.exports.GetOpenComplaints = async (req, res, next) =>{
+  try{
+    const complaints = await Complaint.find({open:true}).lean()
+    res.status(200).json({ message: "Got all open complaints", complaints });
+    next();
+  }catch(e){
+    return res
+    .status(500)
+    .json({message: e})
+  }
+}

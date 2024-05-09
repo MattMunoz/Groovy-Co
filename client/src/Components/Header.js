@@ -12,9 +12,7 @@ export function Header() {
   const { username, role, clearUserStore, id, balance } = useUserStore();
   const location = useLocation();
   const path = location.pathname;
-  const [orderItems, setOrderItems, clearOrderItems] = useUserStore((state) => [
-    state.orderItems,
-    state.setOrderItems,
+  const [clearOrderItems] = useUserStore((state) => [
     state.clearOrderItems,
   ]);
 
@@ -43,7 +41,7 @@ export function Header() {
       {/* <h5>id: {id} </h5> */}
       {id ? (
         <div className="list">
-          <button className="header-button" onClick={Logout}>
+          <button type="button" className="header-button" onClick={Logout}>
             Logout
           </button>
           {path !== "/options" ? (

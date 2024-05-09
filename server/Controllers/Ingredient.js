@@ -8,9 +8,9 @@ module.exports.AddIngredient = async(req, res, next) =>{
     }
     const ingredient = await Ingredient.findOneAndUpdate({name: name}, {$inc: {quantity: quantity}}, {new:true, upsert: true})
     if(!ingredient){
-      return res.json({message: "Error updating ingredient"+name+ " " +quantity})
+      return res.json({message: `Error updating ingredient ${name} ${quantity} `})
     }
-    res.status(201).json({message:"Ingredient "+name+ " updated", success: true, ingredient})
+    res.status(201).json({message:`Ingredient ${name} updated`, success: true, ingredient})
     next()
   
   } catch(e){
@@ -28,9 +28,9 @@ module.exports.RemoveIngredient = async(req, res, next) =>{
     }
     const ingredient = await Ingredient.findOneAndUpdate({name: name}, {$inc: {quantity: -quantity}}, {new:true})
     if(!ingredient){
-      return res.json({message: "Error updating ingredient"+name+ " " +quantity})
+      return res.json({message: `Error updating ingredient ${name} ${quantity}`})
     }
-    res.status(200).json({message:"Ingredient "+name+ " updated", success: true, ingredient})
+    res.status(200).json({message:`Ingredient ${name} updated`, success: true, ingredient})
     next()
   
   } catch(e){

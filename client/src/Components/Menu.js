@@ -110,12 +110,12 @@ function Food({ foodObj, addItems }) {
             {foodObj.soldOut ? (
               "SOLD OUT"
             ) : (
-              <button onClick={handleClick}>
+              <button type="button" onClick={handleClick}>
                 $ <strong>{foodObj.price}</strong>
               </button>
             )}
             {foodObj.soldOut ? (
-              <div></div>
+              <div />
             ) : (
               <select
                 value={quantity}

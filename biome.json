@@ -1,0 +1,12 @@
+{
+  "linter": {
+    "rules": {
+      "style": {
+        "noCommaOperator": "off"
+      },
+      "a11y":{
+       "useKeyWithClickEvents": "off"
+      }
+    }
+  }
+}

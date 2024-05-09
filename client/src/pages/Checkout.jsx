@@ -1,17 +1,17 @@
 import { Header } from "../Components/Header";
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import { useUserStore } from "../Global/userState";
-import Patment, { Payment } from "../Components/Payment";
+// import { useUserStore } from "../Global/userState";
+import { Payment } from "../Components/Payment";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const { updateUsername, updateRole } = useUserStore();
-  const [type, setType] = useState("Delivery");
+  // const { updateUsername, updateRole } = useUserStore();
+  // const [type, setType] = useState("Delivery");
 
   useEffect(() => {
     const verifyCookie = async () => {
@@ -27,9 +27,8 @@ export default function Checkout() {
       return status
         ? (toast(`Hello ${user.role} ${user.username}`, {
             position: "top-right",
-          }),
-          updateUsername(user.username),
-          updateRole(user.role))
+          }))
+
         : (removeCookie("token"), navigate("/login"));
     };
     verifyCookie();

@@ -3,9 +3,8 @@ import { useUserStore } from "../Global/userState";
 
 export function Payment() {
   const [type, setType] = useState("Delivery");
-  const [orderItems, setOrderItems, removeItem] = useUserStore((state) => [
+  const [orderItems, removeItem] = useUserStore((state) => [
     state.orderItems,
-    state.setOrderItems,
     state.removeItem,
   ]);
 
@@ -30,7 +29,7 @@ export function Payment() {
           />
         ))}
       </ul>
-      <div className="line"></div>
+      {/* <div className="line"></div> */}
       <span className="orderitem">
         <p className="name">Total</p>
         <p className="price">{total}</p>
@@ -48,7 +47,7 @@ export function Payment() {
       {type === "Pickup" && ""}
       {type === "Dine-In" && <DineInForm />}
 
-      <button className="btn">Place Order</button>
+      <button type="button" className="btn">Place Order</button>
     </div>
   );
 }
@@ -63,7 +62,7 @@ function Order({ orderitem, remove }) {
         <strong>{orderitem.quantity}</strong>
       </p>
       <p className="price">{price}</p>
-      <button className="remove" onClick={() => remove(orderitem.name)}>
+      <button type="button" className="remove" onClick={() => remove(orderitem.name)}>
         x
       </button>
     </div>
@@ -116,5 +115,5 @@ function DeliveryForm() {
 function DineInForm() {
   const hour = new Date().getHours();
   console.log(hour);
-  return <div className="placeorder"></div>;
+  return <div className="placeorder" />;
 }

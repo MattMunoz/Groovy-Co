@@ -1,5 +1,4 @@
 import { Header } from "../Components/Header";
-import { Footer } from "../Components/Footer";
 import { useUserStore } from "../Global/userState";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
@@ -30,7 +29,7 @@ export default function Options(){
           // console.log(inputAmount+ " deposited\nNew balance: " + (balance+Number(inputAmount)))
           updateBalance(user.balance)
           toast.clearWaitingQueue();
-          toast.success("$"+inputAmount+ " deposited", {position:"bottom-left",hideProgressBar:true})
+          toast.success(`$ ${inputAmount} deposited`, {position:"bottom-left",hideProgressBar:true})
           state.submitButton = "";
           setInputAmount(0)
         }
@@ -60,9 +59,9 @@ export default function Options(){
           const {user, success} = data
           if(success){
             // console.log(inputAmount+ " deposited\nNew balance: " + (balance+Number(inputAmount)))
-            console.log(inputAmount+ " withdrawn\nNew balance: " + (balance-inputAmount))
+            console.log(`${inputAmount} withdrawn\nNew balance: ${balance-inputAmount}`)
             updateBalance(user.balance)
-            toast.success("$"+inputAmount+ " withdrawn", {position:"bottom-left",hideProgressBar:true})
+            toast.success(`$ ${inputAmount} withdrawn`, {position:"bottom-left",hideProgressBar:true})
             state.submitButton = "";
             setInputAmount(0)
           }
@@ -87,9 +86,9 @@ export default function Options(){
              title="Input a nonnegative value with at most two decimal places" 
              value={inputAmount} onChange={(e) => setInputAmount(e.target.value)}/>
             </span>
-          <button type="submit" disabled style={{disabled:true}} aria-hidden="true"></button>
-          <input type="submit" value="Withdraw"  onClick={()=> state.submitButton = "withdraw"}/>
-          <input type="submit" value="Deposit" onClick={()=> state.submitButton = "deposit"}/>
+          <button type="submit" disabled style={{disabled:true}} />
+          <input type="submit" value="Withdraw"  onClick={()=> {state.submitButton = "withdraw"}}/>
+          <input type="submit" value="Deposit" onClick={()=> {state.submitButton = "deposit"}}/>
         </form>
         <br />
         {role === "Chef" ? 

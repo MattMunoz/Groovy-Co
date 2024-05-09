@@ -1,7 +1,7 @@
 import { Header } from "../Components/Header";
 import { Menu } from "../Components/Menu";
 import { Footer } from "../Components/Footer";
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -24,9 +24,7 @@ export default function MainMenu() {
     const newList = orderItems.map((i) => {
       if (i.name === item.name) {
         return { ...i, quantity: item.quantity + i.quantity };
-      } else {
-        return i;
-      }
+      } return i
     });
 
     const itemExists = orderItems.some((i) => i.name === item.name);

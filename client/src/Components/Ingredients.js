@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {  toast } from "react-toastify";
 export default function Ingredients() {
@@ -42,7 +42,7 @@ export default function Ingredients() {
               ...item,
               quantity: Number(item.quantity) + Number(ingredientAmount),
             };
-          } else return item;
+          } return item;
         });
         if (!found) {
           setAllIngredients([
@@ -57,9 +57,10 @@ export default function Ingredients() {
     } else if (state.submitButton === "subtract") {
       try {
         let item = undefined;
-        allIngredients.forEach((element) => {
-          if (element.name === ingredient) item = element;
-        });
+        for(let i = 0; i < allIngredients.length; i++){
+          if(allIngredients[i].name === ingredient)
+            item = allIngredients[i]
+        }
 
         if (item) {
           if (item.quantity >= ingredientAmount) {
@@ -76,7 +77,7 @@ export default function Ingredients() {
                   ...item,
                   quantity: Number(item.quantity) - Number(ingredientAmount),
                 };
-              } else return item;
+              } return item;
             });
 
             setAllIngredients(newIngredients);
@@ -122,12 +123,12 @@ export default function Ingredients() {
         <input
           type="submit"
           value="Add"
-          onClick={() => (state.submitButton = "add")}
+          onClick={() => {state.submitButton = "add"}}
         />
         <input
           type="submit"
           value="Subtract"
-          onClick={() => (state.submitButton = "subtract")}
+          onClick={() => {state.submitButton = "subtract"}}
         />
       </form>
       <br />
@@ -136,10 +137,10 @@ export default function Ingredients() {
         <div className="ingredients-item"><b>Ingredient Name:</b></div>
         <div className="ingredients-item"><b>Quantity:</b></div>
         {allIngredients?.map((element) => (
-            <>
+            <React.Fragment key={element.key}>
             <div className="ingredients-item"> {element.name} </div>
             <div className="ingredients-item"> {element.quantity} </div>
-            </>
+            </ React.Fragment>
         ))}
       
       </div>
