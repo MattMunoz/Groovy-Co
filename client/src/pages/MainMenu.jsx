@@ -20,7 +20,6 @@ export default function MainMenu() {
 
     console.log(orderItems);
   }
-
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -51,9 +50,13 @@ export default function MainMenu() {
         <Menu onAddItems={handleAddItems} />
         </div>
         
+        
 
     </div>
     <Footer />
+    <div className="bar">
+        <strong>Groovy Co.</strong>
+      </div>
     </div>
   );
 }

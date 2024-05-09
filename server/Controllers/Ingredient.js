@@ -1,4 +1,4 @@
-const Ingredient = require("../Models/IngredientModel")
+const Ingredient = require("../Models/Ingredient")
 
 module.exports.AddIngredient = async(req, res, next) =>{
   try{
@@ -30,7 +30,7 @@ module.exports.RemoveIngredient = async(req, res, next) =>{
     if(!ingredient){
       return res.json({message: "Error updating ingredient"+name+ " " +quantity})
     }
-    res.status(201).json({message:"Ingredient "+name+ " updated", success: true, ingredient})
+    res.status(200).json({message:"Ingredient "+name+ " updated", success: true, ingredient})
     next()
   
   } catch(e){
@@ -43,7 +43,7 @@ module.exports.RemoveIngredient = async(req, res, next) =>{
 module.exports.GetAllIngredients = async(req, res, next) =>{
   try{
     const allIngredients = await Ingredient.find().lean()
-    res.status(201).json({
+    res.status(200).json({
       message:"Got all ingredients successfully",
       data: allIngredients.map((item)=>({
         name: item.name,

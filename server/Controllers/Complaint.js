@@ -1,5 +1,5 @@
-const Complaint = require("../Models/ComplaintModel");
-const User = require("../Models/UserModel");
+const Complaint = require("../Models/Complaint");
+const User = require("../Models/User");
 
 module.exports.FileComplaint = async (req, res, next) => {
   try {
@@ -35,7 +35,7 @@ module.exports.DisputeComplaint = async (req, res, next) => {
       { new: true }
     );
     if (!complaint) return res.json({ message: "No complaint with this id" });
-    res.status(201).json({ message: "Successfully added dispute", complaint });
+    res.status(200).json({ message: "Successfully added dispute", complaint });
     next();
   } catch (error) {
     console.error(error);
@@ -52,7 +52,7 @@ module.exports.CloseComplaint = async (req, res, next) => {
       { new: true }
     );
     if (!complaint) return res.json({ message: "No complaint with this id" });
-    res.status(201).json({ message: "Successfully added dispute", complaint });
+    res.status(200).json({ message: "Successfully added dispute", complaint });
     next();
   } catch (error) {
     console.error(error);

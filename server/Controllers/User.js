@@ -1,4 +1,4 @@
-const User = require("../Models/UserModel");
+const User = require("../Models/User");
 
 module.exports.Deposit = async (req, res, next) => {
   try {
@@ -11,7 +11,7 @@ module.exports.Deposit = async (req, res, next) => {
       return res.json({ message: "User doesn't exist" });
     }
     res
-      .status(201)
+      .status(200)
       .json({ message: "Balance updated", success: true, user, id: user._id});
     next();
   } catch (error) {
@@ -30,7 +30,7 @@ module.exports.Withdraw = async (req, res, next) => {
       return res.json({ message: "User doesn't exist" });
     }
     res
-      .status(201)
+      .status(200)
       .json({ message: "Balance updated", success: true, user, id: user._id});
     next();
   } catch (error) {

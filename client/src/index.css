@@ -472,6 +472,7 @@ select {
   row-gap: 5%;
   grid-template-columns:auto auto;
   grid-auto-flow: row;
+  min-height: fit-content;
 
 }
 .ingredients-item{

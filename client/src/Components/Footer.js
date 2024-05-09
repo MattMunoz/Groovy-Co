@@ -19,6 +19,7 @@ export function Footer() {
   //    </p>
   //  );
   return (
+    <>
     <footer className="footer">
 
       {isOpen ? (
@@ -28,10 +29,10 @@ export function Footer() {
           We're happy to welcome you between {openHour}:00 and {closeHour}:00.
         </p>
       )}
-      <div className="bar">
-        <strong>Groovy Co.</strong>
-      </div>
+      
     </footer>
+    
+    </>
   );
   //return React.createElement("footer", null, "We're currently open.");
 }

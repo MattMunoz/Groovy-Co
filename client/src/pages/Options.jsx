@@ -102,8 +102,7 @@ export default function Options(){
             </div>}
 
         <ToastContainer limit={3} autoClose={2000} />
-        <Footer />
-      
+        
     </div> 
     :
     <Navigate to="/login" />

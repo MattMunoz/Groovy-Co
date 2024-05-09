@@ -4,10 +4,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
-const authRoute = require("./Routes/AuthRoute");
-const userRoute = require("./Routes/UserRoute")
-const ingredientRoute = require("./Routes/IngredientRoute")
-const complaintRoute = require("./Routes/ComplaintRoute")
+const authRoute = require("./Routes/Auth");
+const userRoute = require("./Routes/User")
+const ingredientRoute = require("./Routes/Ingredient")
+const complaintRoute = require("./Routes/Complaint")
+const orderRoute = require("./Routes/Order")
 const { MONGO_URL, PORT } = process.env;
 
 mongoose
@@ -34,3 +35,4 @@ app.use("/", authRoute);
 app.use("/", userRoute);
 app.use("/", ingredientRoute);
 app.use("/", complaintRoute)
+app.use("/", orderRoute)
