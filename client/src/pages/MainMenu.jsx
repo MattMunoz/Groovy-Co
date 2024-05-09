@@ -20,6 +20,7 @@ export default function MainMenu() {
   ]);
 
   function handleAddItems(item) {
+    console.log(orderItems);
     const newList = orderItems.map((i) => {
       if (i.name === item.name) {
         return { ...i, quantity: item.quantity + i.quantity };

@@ -86,13 +86,12 @@ function Food({ foodObj, addItems }) {
   //if (foodObj.soldOut) return null;
 
   const name = foodObj.name;
+  const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);
   const [userRating, setUserRating] = useState("");
 
   function handleClick(e) {
     e.preventDefault();
-
-    const price = foodObj.price * quantity;
 
     const orderItem = { name, price, quantity };
     console.log(orderItem);

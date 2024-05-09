@@ -8,9 +8,13 @@ export function Payment() {
     state.setOrderItems,
     state.removeItem,
   ]);
-  const total = orderItems.reduce((accumulator, item) => {
+
+  const newList = orderItems;
+  const total = newList.reduce((accumulator, item) => {
     return accumulator + item.price * item.quantity;
   }, 0);
+
+  console.log(orderItems);
 
   const orderNo = Math.floor(100000 + Math.random() * 900000);
 

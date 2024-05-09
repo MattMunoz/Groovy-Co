@@ -57,7 +57,9 @@ export function Header() {
           )}
         </div>
       ) : (
-        ""
+        <Link className="header-button" to="/login">
+          Login
+        </Link>
       )}
     </header>
   );
