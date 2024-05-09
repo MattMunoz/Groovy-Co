@@ -9,6 +9,7 @@ const userRoute = require("./Routes/User")
 const ingredientRoute = require("./Routes/Ingredient")
 const complaintRoute = require("./Routes/Complaint")
 const orderRoute = require("./Routes/Order")
+const dishRoute = require("./Routes/Dish")
 const { MONGO_URL, PORT } = process.env;
 
 mongoose
@@ -36,3 +37,4 @@ app.use("/", userRoute);
 app.use("/", ingredientRoute);
 app.use("/", complaintRoute)
 app.use("/", orderRoute)
+app.use("/", dishRoute)

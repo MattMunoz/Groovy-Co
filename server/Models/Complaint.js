@@ -20,7 +20,11 @@ const complaintSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true
-  }
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 })
 
 module.exports = mongoose.model("Complaint", complaintSchema)

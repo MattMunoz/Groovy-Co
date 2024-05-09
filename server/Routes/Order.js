@@ -3,7 +3,7 @@ const { AddOrder, CompleteOrder, GetOpenChefOrders, GetOpenCustomerOrders } = re
 
 router.post("/AddOrder", AddOrder )
 router.post("/CompleteOrder", CompleteOrder)
-router.post("/GetOpenChefOrders", GetOpenChefOrders)
-router.post("/GetOpenCustomerOrders", GetOpenCustomerOrders)
+router.get("/GetOpenChefOrders", GetOpenChefOrders)
+router.get("/GetOpenCustomerOrders", GetOpenCustomerOrders)
 
 module.exports = router;
