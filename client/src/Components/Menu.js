@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { StarRating } from "./StarRating";
 
 export function Menu({ onAddItems }) {
   const foods = [
@@ -86,6 +87,7 @@ function Food({ foodObj, addItems }) {
 
   const name = foodObj.name;
   const [quantity, setQuantity] = useState(1);
+  const [userRating, setUserRating] = useState("");
 
   function handleClick(e) {
     e.preventDefault();
@@ -93,44 +95,48 @@ function Food({ foodObj, addItems }) {
     const price = foodObj.price * quantity;
 
     const orderItem = { name, price, quantity };
+    console.log(orderItem);
 
     addItems(orderItem);
   }
 
   return (
-    <div style={{pb:"5%"}}>
-    <li className={`food ${foodObj.soldOut ? "sold-out" : ""}`}>
-      <img src={foodObj.photoName} alt={foodObj.name} />
-      <div>
-        <h3>{foodObj.name}</h3>
-        <p>{foodObj.ingredients}</p>
-        <span className="btnRating">
-          {foodObj.soldOut ? (
-            "SOLD OUT"
-          ) : (
-            <button onClick={handleClick}>
-              $ <strong>{foodObj.price}</strong>
-            </button>
-          )}
-          {foodObj.soldOut ? (
-            <div></div>
-          ) : (
-            <select
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              style={{ textAlign: "auto" }}
-            >
-              {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-                <option value={num} key={num}>
-                  {num}
-                </option>
-              ))}
-            </select>
-          )}
-        </span>
+    <div style={{ pb: "5%" }}>
+      <li className={`food ${foodObj.soldOut ? "sold-out" : ""}`}>
+        <img src={foodObj.photoName} alt={foodObj.name} />
+        <div>
+          <h3>{foodObj.name}</h3>
+          <p>{foodObj.ingredients}</p>
+          <span className="btnRating">
+            {foodObj.soldOut ? (
+              "SOLD OUT"
+            ) : (
+              <button onClick={handleClick}>
+                $ <strong>{foodObj.price}</strong>
+              </button>
+            )}
+            {foodObj.soldOut ? (
+              <div></div>
+            ) : (
+              <select
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                style={{ textAlign: "auto" }}
+                className="hide-arrow"
+              >
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                  <option value={num} key={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+            )}
+          </span>
+        </div>
+      </li>
+      <div className="star">
+        <StarRating size="25" onSetRating={setUserRating} />
       </div>
-    </li>
-  
     </div>
   );
 }

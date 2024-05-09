@@ -21,7 +21,7 @@ StarRating.propTypes = {
   onSetRating: PropTypes.func,
 };
 
-export default function StarRating({
+export function StarRating({
   maxRating = 5,
   color = "#fcc419",
   size = 48,

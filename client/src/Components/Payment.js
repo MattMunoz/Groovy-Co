@@ -1,49 +1,29 @@
 import React, { useState } from "react";
+import { useUserStore } from "../Global/userState";
 
 export function Payment() {
   const [type, setType] = useState("Delivery");
-  const order = [
-    {
-      name: "Focaccia",
-      price: 6,
-      quantity: 1,
-    },
-    {
-      name: "Pizza Margherita",
-      price: 10,
-      quantity: 3,
-    },
-    {
-      name: "Pizza Spinaci",
-      price: 12,
-      quantity: 2,
-    },
-    {
-      name: "Pizza Funghi",
-      price: 12,
-      quantity: 4,
-    },
-    {
-      name: "Pizza Salamino",
-      price: 15,
-      quantity: 1,
-    },
-    {
-      name: "Pizza Prosciutto",
-      price: 18,
-      quantity: 2,
-    },
-  ];
-  const total = order.reduce((accumulator, item) => {
+  const [orderItems, setOrderItems, removeItem] = useUserStore((state) => [
+    state.orderItems,
+    state.setOrderItems,
+    state.removeItem,
+  ]);
+  const total = orderItems.reduce((accumulator, item) => {
     return accumulator + item.price * item.quantity;
   }, 0);
 
+  const orderNo = Math.floor(100000 + Math.random() * 900000);
+
   return (
     <div className="order">
-      <h1>Order XXX</h1>
+      <h1>Order #{orderNo}</h1>
       <ul className="orderitems">
-        {order.map((orderitem) => (
-          <Order orderitem={orderitem} key={order.name} />
+        {orderItems.map((orderitem) => (
+          <Order
+            orderitem={orderitem}
+            key={orderItems.name}
+            remove={removeItem}
+          />
         ))}
       </ul>
       <div className="line"></div>
@@ -56,16 +36,22 @@ export function Payment() {
         <select value={type}>
           <option>Delivery</option>
           <option>Pickup</option>
+          <option>Dine-In</option>
         </select>
       </span>
-      {type === "Delivery" ? <Form /> : ""}
+
+      {type === "Delivery" && <DeliveryForm />}
+      {type === "Pickup" && ""}
+      {type === "Dine-In" && <DineInForm />}
+
       <button className="btn">Place Order</button>
     </div>
   );
 }
 
-function Order({ orderitem }) {
+function Order({ orderitem, remove }) {
   const price = orderitem.price * orderitem.quantity;
+
   return (
     <div classname className="orderitem">
       <p className="name">
@@ -73,11 +59,14 @@ function Order({ orderitem }) {
         <strong>{orderitem.quantity}</strong>
       </p>
       <p className="price">{price}</p>
+      <button className="remove" onClick={() => remove(orderitem.name)}>
+        x
+      </button>
     </div>
   );
 }
 
-function Form() {
+function DeliveryForm() {
   const margin = { marginBottom: "10px" };
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -118,4 +107,10 @@ function Form() {
       <input type="text" value={zip} onChange={(e) => setZip(e.target.value)} />
     </div>
   );
+}
+
+function DineInForm() {
+  const hour = new Date().getHours();
+  console.log(hour);
+  return <div className="placeorder"></div>;
 }

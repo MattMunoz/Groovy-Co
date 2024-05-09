@@ -12,14 +12,30 @@ export default function MainMenu() {
   // const currTime = new Date().toLocaleTimeString();
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const { updateUsername, updateRole, updateId, updateBalance } = useUserStore();
-  const [orderItems, setOrderItems] = useState([]);
+  const { updateUsername, updateRole, updateId, updateBalance } =
+    useUserStore();
+  const [orderItems, setOrderItems] = useUserStore((state) => [
+    state.orderItems,
+    state.setOrderItems,
+  ]);
 
   function handleAddItems(item) {
-    setOrderItems((orderItems) => [...orderItems, item]);
+    const newList = orderItems.map((i) => {
+      if (i.name === item.name) {
+        return { ...i, quantity: item.quantity + i.quantity };
+      } else {
+        return i;
+      }
+    });
 
-    console.log(orderItems);
+    const itemExists = orderItems.some((i) => i.name === item.name);
+    if (!itemExists) {
+      setOrderItems([...orderItems, item]);
+    } else {
+      setOrderItems(newList);
+    }
   }
+
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -30,31 +46,38 @@ export default function MainMenu() {
         {},
         { withCredentials: true }
       );
-      const { status, user, id} = data;
+      const { status, user, id } = data;
       return status
         ? (toast(`Hello ${user.role} ${user.username}`, {
             position: "top-right",
-          }), updateUsername(user.username), updateRole(user.role), updateId(id), updateBalance(user.balance))
-        : (removeCookie("token"));
+          }),
+          updateUsername(user.username),
+          updateRole(user.role),
+          updateId(id),
+          updateBalance(user.balance))
+        : removeCookie("token");
     };
     verifyCookie();
-  }, [cookies, navigate, removeCookie, updateUsername, updateId, updateRole, updateBalance]);
+  }, [
+    cookies,
+    navigate,
+    removeCookie,
+    updateUsername,
+    updateId,
+    updateRole,
+    updateBalance,
+  ]);
 
   return (
-    <div style={{position: "relative",
-      minHeight: "100vh"}}>
-    <div className="main" >
-
+    <div style={{ position: "relative", minHeight: "100vh" }}>
+      <div className="main">
         <Header />
-        <div style={{paddingBottom:"15%"}}>
-        <Menu onAddItems={handleAddItems} />
+        <div style={{ paddingBottom: "15%" }}>
+          <Menu onAddItems={handleAddItems} />
         </div>
-        
-        
-
-    </div>
-    <Footer />
-    <div className="bar">
+      </div>
+      <Footer />
+      <div className="bar">
         <strong>Groovy Co.</strong>
       </div>
     </div>

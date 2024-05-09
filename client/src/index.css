@@ -208,7 +208,6 @@ body {
   letter-spacing: 3px;
   left: 0;
 
-  
   margin-left: 25px;
   text-decoration: none;
 }
@@ -254,6 +253,7 @@ body {
 .food {
   display: flex;
   gap: 3.2rem;
+  margin-bottom: 5px;
 }
 
 .food img {
@@ -304,8 +304,7 @@ body {
   text-align: center;
   position: absolute;
   bottom: 0;
-  width:95%;
-
+  width: 95%;
 }
 
 .order {
@@ -398,12 +397,13 @@ body {
 .stars {
   display: block;
   float: left;
+  margin-top: 100px;
 }
 
 .food select {
   margin-left: 5%;
   height: 30px;
-  width: 50px;
+  width: 35px;
 }
 
 .list {
@@ -465,24 +465,47 @@ select {
 }
 
 .ingredients-container {
-  display:grid;
+  display: grid;
   align-items: center;
   justify-items: center;
   text-align: left;
   row-gap: 5%;
-  grid-template-columns:auto auto;
+  grid-template-columns: auto auto;
   grid-auto-flow: row;
   min-height: fit-content;
-
 }
-.ingredients-item{
+.ingredients-item {
   display: flex;
   text-align: left;
   font-size: small;
-
 }
-.center{
+.center {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.remove {
+  margin-left: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: large;
+}
+
+.remove:hover {
+  background-color: #d6d6d6;
+  border-radius: 25%;
+}
+
+.hide-arrow::-ms-expand {
+  display: none;
+}
+
+.hide-arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align: center;
+  font-size: 15px;
+  align-items: center;
 }

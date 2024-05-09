@@ -60,39 +60,39 @@ export default function Login() {
 
   return (
     <>
-    <Header />
-    <div className="login">
-      <div className="form_container">
-        <h2>Login Account</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={handleOnChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Enter your password"
-              onChange={handleOnChange}
-            />
-          </div>
-          <button type="submit">Submit</button>
-          <span>
-            Don't have an account yet? <Link to={"/signup"}>Signup</Link>
-          </span>
-        </form>
-        <ToastContainer />
+      <Header />
+      <div className="login">
+        <div className="form_container">
+          <h2>Login Account</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                placeholder="Enter your email"
+                onChange={handleOnChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Enter your password"
+                onChange={handleOnChange}
+              />
+            </div>
+            <button type="submit">Submit</button>
+            <span>
+              Don't have an account yet? <Link to={"/signup"}>Signup</Link>
+            </span>
+          </form>
+          <ToastContainer />
+        </div>
       </div>
-    </div>
     </>
   );
 }
