@@ -27,10 +27,22 @@ const userSchema = new mongoose.Schema({
     type:Number,
     default: 0
   },
+  level:{
+    type:Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: new Date(),
   },
+  ordersPlaced: {
+    type:Number,
+    default: 0
+  },
+  moneySpent:{
+    type:Number,
+    default: 0
+  }
 });
 
 userSchema.pre("save", async function () {
