@@ -15,7 +15,7 @@ module.exports.AddIngredient = async(req, res, next) =>{
   
   } catch(e){
     return res
-    .status(400)
+    .status(500)
     .json({message: e})
   }
 }
@@ -35,7 +35,7 @@ module.exports.RemoveIngredient = async(req, res, next) =>{
   
   } catch(e){
     return res
-    .status(400)
+    .status(500)
     .json({message: e})
   }
 }
@@ -53,8 +53,9 @@ module.exports.GetAllIngredients = async(req, res, next) =>{
     next()
   }
   catch(e){
+    console.log(e)
     return res
-    .status(400)
+    .status(500)
     .json({message: e})
   }
 }

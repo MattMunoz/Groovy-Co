@@ -45,6 +45,10 @@ const dishSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  soldOut:{
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model("Dish", dishSchema);
