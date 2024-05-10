@@ -136,8 +136,9 @@ function Food({ foodObj, addItems }) {
         </div>
       </li>
       <div className="star">
-        <StarRating size="25" onSetRating={setUserRating} />
+        <StarRating size="25" onSetRating={setUserRating} defaultRating="0" />
       </div>
     </div>
   );
 }
+/*display dabase rating as deafult in starRating*/

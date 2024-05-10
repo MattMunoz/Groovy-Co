@@ -25,11 +25,7 @@ export default function Checkout() {
         { withCredentials: true }
       );
       const { status, user } = data;
-      return status
-        ? toast(`Hello ${user.role} ${user.username}`, {
-            position: "top-right",
-          })
-        : (removeCookie("token"), navigate("/login"));
+      return status ? "" : (removeCookie("token"), navigate("/login"));
     };
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
@@ -37,7 +33,7 @@ export default function Checkout() {
   return (
     <div>
       <Header />
-      <Payment orderNo={orderNo}/>
+      <Payment orderNo={orderNo} />
       <div className="bar">
         <strong>Groovy Co.</strong>
       </div>

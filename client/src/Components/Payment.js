@@ -1,23 +1,45 @@
 import React, { useState } from "react";
 import { useUserStore } from "../Global/userState";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 export function Payment({ orderNo }) {
   const [type, setType] = useState("Delivery");
+
   const [orderItems, removeItem] = useUserStore((state) => [
     state.orderItems,
     state.removeItem,
   ]);
-  const { level, balance } = useUserStore();
+  const { level, balance, updateBalance } = useUserStore();
 
   const newList = orderItems;
   const acc = newList.reduce((accumulator, item) => {
     return accumulator + item.price * item.quantity;
   }, 0);
 
+  const errorMoney = () => {
+    toast.error("Not Enough Money in the Account", {
+      position: "bottom-left",
+      hideProgressBar: true,
+    });
+  };
+
+  const errorOrder = () => {
+    toast.error("No items in your order", {
+      position: "bottom-left",
+      hideProgressBar: true,
+    });
+  };
+
   const discount = level * 10;
 
   const total = (acc * (100 - discount)) / 100;
+
+  const enoughMoney = balance > total;
+
+  function update(total) {
+    updateBalance(balance - total);
+  }
 
   return (
     <div className="order">
@@ -55,23 +77,42 @@ export function Payment({ orderNo }) {
           <option>Dine-In</option>
         </select>
       </span>
-
       {type === "Delivery" && <DeliveryForm />}
       {type === "Pickup" && ""}
       {type === "Dine-In" && <DineInForm />}
 
-      {balance > total ? (
+      {enoughMoney && total !== 0 ? (
         <Link className="btn" to={"/"}>
           Checkout
         </Link>
       ) : (
-        <button type="button" className="btn">
-          Place Order
-        </button>
+        ""
+      )}
+      {!enoughMoney ? (
+        <div>
+          <button type="button" className="btn" onClick={errorMoney}>
+            Place Order
+          </button>
+          <ToastContainer />
+        </div>
+      ) : (
+        ""
+      )}
+      {total === 0 ? (
+        <div>
+          <button className="btn" to={"/"} onClick={errorOrder}>
+            Checkout
+          </button>
+          <ToastContainer />
+        </div>
+      ) : (
+        ""
       )}
     </div>
   );
 }
+
+toast.dismiss("toast-1");
 
 function Order({ orderitem, remove }) {
   const price = orderitem.price * orderitem.quantity;
@@ -87,6 +128,7 @@ function Order({ orderitem, remove }) {
         type="button"
         className="remove"
         onClick={() => remove(orderitem.name)}
+        style={{ color: "red" }}
       >
         x
       </button>
