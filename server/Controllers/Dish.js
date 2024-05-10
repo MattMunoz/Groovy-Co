@@ -15,8 +15,22 @@ module.exports.AddDish = async (req, res, next) => {
 			return res
 				.status(400)
 				.json({ message: "The creator is not a valid chef user" });
+
+		const stock = await Ingredient.find(
+			{},
+			{ name: true, quantity: true },
+		).lean();
+		let soldOut = false;
+		for (const item of ingredients) {
+			const ing = stock.find((ing) => ing.name === item.name);
+			if (!ing || (ing && ing.quantity < item.quantity)) {
+				soldOut = true;
+				break;
+			}
+		}
+
 		const dish = await Dish.create(
-			[{ name, description, price, ingredients, imageURL, createdBy }],
+			[{ name, description, price, ingredients, imageURL, createdBy, soldOut }],
 			{ new: true },
 		);
 
@@ -32,14 +46,43 @@ module.exports.AddDish = async (req, res, next) => {
 module.exports.EditDish = async (req, res, next) => {
 	try {
 		const { id, update, value } = req.body;
-		const dish = await Dish.findByIdAndUpdate(
-			id,
-			{ [update]: value },
-			{ new: true },
-		);
-		if (!dish) return res.status(400).json({ message: "Cannot find dish" });
-		res.status(200).json({ message: "Dish edited successfully", dish });
-		next();
+		if (update === "ingredients") {
+			const stock = await Ingredient.find(
+				{},
+				{ name: true, quantity: true },
+			).lean();
+			let soldOut = false;
+			for (const item of value) {
+				const ing = stock.find((ing) => ing.name === item.name);
+				if (!ing || (ing && ing.quantity < item.quantity)) {
+					soldOut = true;
+					break;
+				}
+			}
+			const dish = await Dish.findByIdAndUpdate(
+				id,
+				{ [update]: value, soldOut },
+				{ new: true },
+			);
+			if (!dish) 
+				return res.status(400).json({ message: "Cannot find dish" });
+			res
+				.status(200)
+				.json({
+					message: "Dish edited successfully, sold out status changed",
+					dish,
+				});
+			next();
+		} else {
+			const dish = await Dish.findByIdAndUpdate(
+				id,
+				{ [update]: value },
+				{ new: true },
+			);
+			if (!dish) return res.status(400).json({ message: "Cannot find dish" });
+			res.status(200).json({ message: "Dish edited successfully", dish });
+			next();
+		}
 	} catch (error) {
 		res.status(500).json({ error });
 	}
@@ -94,17 +137,22 @@ module.exports.RateDish = async (req, res, next) => {
 
 module.exports.UpdateSoldOut = async (req, res, next) => {
 	try {
-		const ingredients = await Ingredient.find({},{name:true, quantity:true, _id:false}).lean();
-		const dishes = await Dish.find({},{name:true, ingredients:true, soldOut: true, _id:false}).lean();
-    // console.log(dishes);
-    console.log(ingredients)
+		const ingredients = await Ingredient.find(
+			{},
+			{ name: true, quantity: true, _id: false },
+		).lean();
+		const dishes = await Dish.find(
+			{},
+			{ name: true, ingredients: true, soldOut: true, _id: false },
+		).lean();
+
 		const newDishes = dishes.map((dish) => {
 			let out = false;
 			dish.ingredients.map((ingredient) => {
 				const compare = ingredients.find(
 					(item) => item.name === ingredient.name,
 				);
-				if (!compare || compare && compare.quantity < ingredient.quantity) 
+				if (!compare || (compare && compare.quantity < ingredient.quantity))
 					out = true;
 
 				if (out) return;
@@ -112,22 +160,29 @@ module.exports.UpdateSoldOut = async (req, res, next) => {
 			if (out) return { ...dish, soldOut: true };
 			return { ...dish, soldOut: false };
 		});
-		console.log(dishes);
-    
-    const dishUpdate = []
-    for(let i = 0; i < newDishes.length; i++){
-      if((newDishes[i].name === dishes[i].name) && (newDishes[i].soldOut !== dishes[i].soldOut))
-        dishUpdate.push(newDishes[i]) 
-    }
-    if(dishUpdate.length === 0) 
-      return res.status(200).json({message:"All dishes are up to date"}) 
-    for(const dish of dishUpdate){
-      await Dish.findOneAndUpdate({name: dish.name}, {soldOut: dish.soldOut})
-    }
-    res.status(200).json({ message: "Updated sold out status of all dishes", dishUpdate});
+
+		const dishUpdate = [];
+		for (let i = 0; i < newDishes.length; i++) {
+			if (
+				newDishes[i].name === dishes[i].name &&
+				newDishes[i].soldOut !== dishes[i].soldOut
+			)
+				dishUpdate.push(newDishes[i]);
+		}
+		if (dishUpdate.length === 0)
+			return res.status(200).json({ message: "All dishes are up to date" });
+		for (const dish of dishUpdate) {
+			await Dish.findOneAndUpdate(
+				{ name: dish.name },
+				{ soldOut: dish.soldOut },
+			);
+		}
+		res
+			.status(200)
+			.json({ message: "Updated sold out status of all dishes", dishUpdate });
 		next();
 	} catch (error) {
-    console.log(error)
+		console.log(error);
 		res.status(500).json({ error });
 	}
 };
