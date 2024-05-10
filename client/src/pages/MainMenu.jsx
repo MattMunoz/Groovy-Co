@@ -1,7 +1,7 @@
 import { Header } from "../Components/Header";
 import { Menu } from "../Components/Menu";
 import { Footer } from "../Components/Footer";
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -12,7 +12,7 @@ export default function MainMenu() {
   // const currTime = new Date().toLocaleTimeString();
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const { updateUsername, updateRole, updateId, updateBalance } =
+  const { updateUsername, updateRole, updateId, updateBalance, role } =
     useUserStore();
   const [orderItems, setOrderItems] = useUserStore((state) => [
     state.orderItems,
@@ -20,11 +20,14 @@ export default function MainMenu() {
   ]);
 
   function handleAddItems(item) {
-    console.log(orderItems);
+    if (role === null) {
+      return;
+    }
     const newList = orderItems.map((i) => {
       if (i.name === item.name) {
         return { ...i, quantity: item.quantity + i.quantity };
-      } return i
+      }
+      return i;
     });
 
     const itemExists = orderItems.some((i) => i.name === item.name);
@@ -37,9 +40,6 @@ export default function MainMenu() {
 
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.token) {
-        navigate("/login");
-      }
       const { data } = await axios.post(
         "http://localhost:4000",
         {},
@@ -75,7 +75,7 @@ export default function MainMenu() {
           <Menu onAddItems={handleAddItems} />
         </div>
       </div>
-      <Footer />
+      <Footer activeuser={cookies.token} />
       <div className="bar">
         <strong>Groovy Co.</strong>
       </div>

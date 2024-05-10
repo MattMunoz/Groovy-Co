@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { StarRating } from "./StarRating";
+import { useUserStore } from "../Global/userState";
 
 export function Menu({ onAddItems }) {
   const foods = [
@@ -89,6 +90,7 @@ function Food({ foodObj, addItems }) {
   const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);
   const [userRating, setUserRating] = useState("");
+  const { role } = useUserStore();
 
   function handleClick(e) {
     e.preventDefault();
@@ -114,7 +116,7 @@ function Food({ foodObj, addItems }) {
                 $ <strong>{foodObj.price}</strong>
               </button>
             )}
-            {foodObj.soldOut ? (
+            {role === null ? (
               <div />
             ) : (
               <select
