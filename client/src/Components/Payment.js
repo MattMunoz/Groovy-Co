@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useUserStore } from "../Global/userState";
 
-export function Payment() {
+export function Payment({ orderNo }) {
   const [type, setType] = useState("Delivery");
   const [orderItems, removeItem] = useUserStore((state) => [
     state.orderItems,
@@ -13,9 +13,7 @@ export function Payment() {
     return accumulator + item.price * item.quantity;
   }, 0);
 
-  console.log(orderItems);
-
-  const orderNo = Math.floor(100000 + Math.random() * 900000);
+  const discount = 20;
 
   return (
     <div className="order">
@@ -30,13 +28,20 @@ export function Payment() {
         ))}
       </ul>
       {/* <div className="line"></div> */}
+      <div style={{ display: "flex" }}>
+        <p style={{ fontSize: "15px" }}>Discount</p>
+        <p style={{ marginLeft: "10px", fontSize: "15px" }}>{discount}%</p>
+        <p style={{ fontSize: "15px", marginLeft: "370px" }}>
+          {(total * discount) / 100}
+        </p>
+      </div>
       <span className="orderitem">
         <p className="name">Total</p>
-        <p className="price">{total}</p>
+        <p className="price">{(total * (100 - discount)) / 100}</p>
       </span>
       <span className="orderitem" onChange={(e) => setType(e.target.value)}>
         <p>Order Type</p>
-        <select value={type}>
+        <select value={type} onChange={(e) => setType(e.target.value)}>
           <option>Delivery</option>
           <option>Pickup</option>
           <option>Dine-In</option>
@@ -47,7 +52,9 @@ export function Payment() {
       {type === "Pickup" && ""}
       {type === "Dine-In" && <DineInForm />}
 
-      <button type="button" className="btn">Place Order</button>
+      <button type="button" className="btn">
+        Place Order
+      </button>
     </div>
   );
 }
@@ -62,7 +69,11 @@ function Order({ orderitem, remove }) {
         <strong>{orderitem.quantity}</strong>
       </p>
       <p className="price">{price}</p>
-      <button type="button" className="remove" onClick={() => remove(orderitem.name)}>
+      <button
+        type="button"
+        className="remove"
+        onClick={() => remove(orderitem.name)}
+      >
         x
       </button>
     </div>
@@ -113,7 +124,42 @@ function DeliveryForm() {
 }
 
 function DineInForm() {
-  const hour = new Date().getHours();
-  console.log(hour);
-  return <div className="placeorder" />;
+  const date = new Date();
+  const hour = date.getHours();
+  const min = date.getMinutes();
+  const time = hour * 100 + min;
+  const [where, setWhere] = useState("Indoor");
+  const margin = { marginBottom: "10px" };
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  return (
+    <div className="placeorder">
+      <h3>Name:</h3>
+      <input
+        type="text"
+        style={margin}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <h3>Email:</h3>
+      <input
+        type="text"
+        style={margin}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <h3 style={{ marginLeft: "160px" }}>Pickup Time:</h3>
+      <input
+        type="text"
+        style={{ width: "150px", marginLeft: "160px" }}
+        placeholder={time}
+      />
+      <div classname="ltselector">
+        <select value={where} onChange={(e) => setWhere(e.target.value)}>
+          <option>Indoor</option>
+          <option>Outdoor</option>
+        </select>
+      </div>
+    </div>
+  );
 }
