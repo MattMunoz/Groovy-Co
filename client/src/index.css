@@ -509,9 +509,3 @@ select {
   font-size: 15px;
   align-items: center;
 }
-
-.placeorder select {
-  margin-top: 20px;
-  margin-left: 200px;
-}
-

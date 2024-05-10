@@ -48,11 +48,17 @@ function Order({ closeHour, openHour, activeUser }) {
       </p>
 
       {role !== null ? (
-        <Link className="btn" to={"/checkout"}>
+        <Link
+          className="btn"
+          to={"/checkout"}
+          style={{ textDecoration: "none" }}
+        >
           Checkout
         </Link>
       ) : (
-        ""
+        <Link className="btn" to={"/signup"} style={{ textDecoration: "none" }}>
+          Apply for Membership!
+        </Link>
       )}
     </div>
   );

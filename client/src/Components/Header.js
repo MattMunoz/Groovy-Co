@@ -54,9 +54,15 @@ export function Header() {
           )}
         </div>
       ) : (
-        <Link className="header-button" to="/login">
-          Login
-        </Link>
+        <div className="list">
+          {path !== "/login" ? (
+            <Link className="header-button" to="/login">
+              Login
+            </Link>
+          ) : (
+            ""
+          )}
+        </div>
       )}
     </header>
   );

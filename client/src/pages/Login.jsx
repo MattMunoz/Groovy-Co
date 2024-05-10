@@ -22,10 +22,12 @@ export default function Login() {
   const handleError = (err) =>
     toast.error(err, {
       position: "bottom-left",
+      hideProgressBar: true,
     });
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "bottom-left",
+      hideProgressBar: true,
     });
 
   const handleSubmit = async (e) => {
