@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useUserStore } from "../Global/userState";
+import { Link } from "react-router-dom";
 
 export function Payment({ orderNo }) {
   const [type, setType] = useState("Delivery");
@@ -7,13 +8,16 @@ export function Payment({ orderNo }) {
     state.orderItems,
     state.removeItem,
   ]);
+  const { level, balance } = useUserStore();
 
   const newList = orderItems;
-  const total = newList.reduce((accumulator, item) => {
+  const acc = newList.reduce((accumulator, item) => {
     return accumulator + item.price * item.quantity;
   }, 0);
 
-  const discount = 20;
+  const discount = level * 10;
+
+  const total = (acc * (100 - discount)) / 100;
 
   return (
     <div className="order">
@@ -28,13 +32,17 @@ export function Payment({ orderNo }) {
         ))}
       </ul>
       {/* <div className="line"></div> */}
-      <div style={{ display: "flex" }}>
-        <p style={{ fontSize: "15px" }}>Discount</p>
-        <p style={{ marginLeft: "10px", fontSize: "15px" }}>{discount}%</p>
-        <p style={{ fontSize: "15px", marginLeft: "370px" }}>
-          {(total * discount) / 100}
-        </p>
-      </div>
+      {level !== 0 ? (
+        ""
+      ) : (
+        <div style={{ display: "flex" }}>
+          <p style={{ fontSize: "15px" }}>Discount</p>
+          <p style={{ marginLeft: "10px", fontSize: "15px" }}>{discount}%</p>
+          <p style={{ fontSize: "15px", marginLeft: "370px" }}>
+            {(total * discount) / 100}
+          </p>
+        </div>
+      )}
       <span className="orderitem">
         <p className="name">Total</p>
         <p className="price">{(total * (100 - discount)) / 100}</p>
@@ -52,9 +60,15 @@ export function Payment({ orderNo }) {
       {type === "Pickup" && ""}
       {type === "Dine-In" && <DineInForm />}
 
-      <button type="button" className="btn">
-        Place Order
-      </button>
+      {balance > total ? (
+        <Link className="btn" to={"/"}>
+          Checkout
+        </Link>
+      ) : (
+        <button type="button" className="btn">
+          Place Order
+        </button>
+      )}
     </div>
   );
 }
@@ -127,7 +141,7 @@ function DineInForm() {
   const date = new Date();
   const hour = date.getHours();
   const min = date.getMinutes();
-  const time = hour * 100 + min;
+  const time = (hour + 1) * 100 + min;
   const [where, setWhere] = useState("Indoor");
   const margin = { marginBottom: "10px" };
   const [name, setName] = useState();

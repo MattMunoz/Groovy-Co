@@ -9,14 +9,13 @@ export function Header() {
   //const styl = {};
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const { username, role, clearUserStore, id, balance } = useUserStore();
+  const { username, role, clearUserStore, id, balance, level } = useUserStore();
   const location = useLocation();
   const path = location.pathname;
-  const [clearOrderItems] = useUserStore((state) => [
-    state.clearOrderItems,
-  ]);
+  const [clearOrderItems] = useUserStore((state) => [state.clearOrderItems]);
 
   console.log(path);
+  console.log(level);
   const Logout = () => {
     // console.log(cookies)
     clearOrderItems();

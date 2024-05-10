@@ -12,8 +12,15 @@ export default function MainMenu() {
   // const currTime = new Date().toLocaleTimeString();
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const { updateUsername, updateRole, updateId, updateBalance, role } =
-    useUserStore();
+  const {
+    updateUsername,
+    updateRole,
+    updateId,
+    updateBalance,
+    role,
+    updateLevel,
+    userLevel,
+  } = useUserStore();
   const [orderItems, setOrderItems] = useUserStore((state) => [
     state.orderItems,
     state.setOrderItems,
@@ -53,7 +60,8 @@ export default function MainMenu() {
           updateUsername(user.username),
           updateRole(user.role),
           updateId(id),
-          updateBalance(user.balance))
+          updateBalance(user.balance),
+          updateLevel(user.level))
         : removeCookie("token");
     };
     verifyCookie();
@@ -65,7 +73,10 @@ export default function MainMenu() {
     updateId,
     updateRole,
     updateBalance,
+    updateLevel,
   ]);
+
+  console.log(userLevel);
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>

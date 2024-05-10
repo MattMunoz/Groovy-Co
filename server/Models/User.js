@@ -15,34 +15,34 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Your password is required"],
   },
-  role:{
+  role: {
     type: String,
-    default:"Customer"
+    default: "Customer",
   },
   balance: {
     type: Number,
-    required: true
+    required: true,
   },
-  standing:{
-    type:Number,
-    default: 0
+  standing: {
+    type: Number,
+    default: 0,
   },
-  level:{
-    type:Number,
-    default: 0
+  level: {
+    type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,
     default: new Date(),
   },
   ordersPlaced: {
-    type:Number,
-    default: 0
+    type: Number,
+    default: 0,
   },
-  moneySpent:{
-    type:Number,
-    default: 0
-  }
+  moneySpent: {
+    type: Number,
+    default: 0,
+  },
 });
 
 userSchema.pre("save", async function () {

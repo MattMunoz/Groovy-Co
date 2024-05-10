@@ -8,6 +8,7 @@ export const useUserStore = create(
       role: null,
       balance: 0,
       orderItems: [],
+      userLevel: 0,
       updateRole: (newRole) => set({ role: newRole }),
       clearUserStore: () =>
         set({ username: null, role: null, id: null, balance: 0 }),
@@ -20,6 +21,7 @@ export const useUserStore = create(
           orderItems: state.orderItems.filter((item) => item.name !== itemName),
         })),
       clearOrderItems: () => set({ orderItems: [] }),
+      updateLevel: (level) => set({ userLevel: level }),
     }),
     { name: "user" }
   )
