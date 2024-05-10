@@ -58,8 +58,6 @@ export default function MainMenu() {
     };
     verifyCookie();
   }, [
-    cookies,
-    navigate,
     removeCookie,
     updateUsername,
     updateId,

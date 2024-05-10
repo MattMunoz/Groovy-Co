@@ -136,7 +136,7 @@ export default function Ingredients() {
       <div className="ingredients-container">
         <div className="ingredients-item"><b>Ingredient Name:</b></div>
         <div className="ingredients-item"><b>Quantity:</b></div>
-        {allIngredients?.map((element) => (
+        {allIngredients?.map((element) => ( element.quantity > 0 &&
             <React.Fragment key={element.key}>
             <div className="ingredients-item"> {element.name} </div>
             <div className="ingredients-item"> {element.quantity} </div>
