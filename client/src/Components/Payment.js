@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import { useUserStore } from "../Global/userState";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { DineInForm } from "./DineInForm";
+import { DeliveryForm } from "./DeliveryForm";
 
 export function Payment({ orderNo }) {
   const [type, setType] = useState("Delivery");
+  const [clearOrderItems] = useUserStore((state) => [state.clearOrderItems]);
+  const { id, level, balance, updateBalance } = useUserStore();
+  // console.log(username, id)
+  const state = { submitButton: "" };
+  const navigate = useNavigate();
 
   const [orderItems, removeItem] = useUserStore((state) => [
     state.orderItems,
     state.removeItem,
   ]);
-  const { level, balance, updateBalance } = useUserStore();
 
   const newList = orderItems;
   const acc = newList.reduce((accumulator, item) => {
@@ -30,6 +38,51 @@ export function Payment({ orderNo }) {
       hideProgressBar: true,
     });
   };
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  async function balancePayment(e) {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("http://localhost:4000/withdraw", {
+        id: id,
+        amount: total,
+      });
+      console.log(data);
+      const { user, success } = data;
+      if (success) {
+        updateBalance(user.balance);
+        toast.success(`Order Placed`, {
+          position: "bottom-left",
+          hideProgressBar: true,
+        });
+        state.submitButton = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    <ToastContainer />;
+    await sleep(2000);
+    try {
+      const { data } = await axios.post("http://localhost:4000/AddOrder", {
+        id: id,
+      });
+      console.log(data);
+      const { user, success } = data;
+      if (success) {
+        updateBalance(user.balance);
+        toast.success(`Order Placed`, {
+          position: "bottom-left",
+          hideProgressBar: true,
+        });
+        state.submitButton = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    clearOrderItems();
+    navigate("/");
+  }
 
   const discount = level * 10;
 
@@ -57,12 +110,20 @@ export function Payment({ orderNo }) {
       {level !== 0 ? (
         ""
       ) : (
-        <div style={{ display: "flex" }}>
-          <p style={{ fontSize: "15px" }}>Discount</p>
-          <p style={{ marginLeft: "10px", fontSize: "15px" }}>{discount}%</p>
-          <p style={{ fontSize: "15px", marginLeft: "370px" }}>
-            {(total * discount) / 100}
-          </p>
+        <div>
+          {level === 0 ? (
+            ""
+          ) : (
+            <div style={{ display: "flex" }}>
+              <p style={{ fontSize: "15px" }}>Discount</p>
+              <p style={{ marginLeft: "10px", fontSize: "15px" }}>
+                {discount}%
+              </p>
+              <p style={{ fontSize: "15px", marginLeft: "370px" }}>
+                {(total * discount) / 100}
+              </p>
+            </div>
+          )}
         </div>
       )}
       <span className="orderitem">
@@ -82,9 +143,12 @@ export function Payment({ orderNo }) {
       {type === "Dine-In" && <DineInForm />}
 
       {enoughMoney && total !== 0 ? (
-        <Link className="btn" to={"/"}>
-          Place Order
-        </Link>
+        <>
+          <Link className="btn" onClick={balancePayment} to={"/"}>
+            Place Order
+          </Link>
+          <ToastContainer />;
+        </>
       ) : (
         ""
       )}
@@ -132,114 +196,6 @@ function Order({ orderitem, remove }) {
       >
         x
       </button>
-    </div>
-  );
-}
-
-function DeliveryForm() {
-  const margin = { marginBottom: "10px" };
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [address, setAddress] = useState();
-  const [city, setCity] = useState();
-  const [zip, setZip] = useState();
-
-  return (
-    <div className="placeorder">
-      <h3>Name:</h3>
-      <input
-        type="text"
-        style={margin}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <h3>Email:</h3>
-      <input
-        type="text"
-        style={margin}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <h3>Street Address:</h3>
-      <input
-        type="text"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-      <h3>City:</h3>
-      <input
-        type="text"
-        style={margin}
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
-      <h3>Zip:</h3>
-      <input type="text" value={zip} onChange={(e) => setZip(e.target.value)} />
-    </div>
-  );
-}
-
-function DineInForm() {
-  const [pickupTime, setPickupTime] = useState();
-  const [where, setWhere] = useState("Indoor");
-  const margin = { marginBottom: "10px" };
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const maxMinutes = 1260;
-  const interval = 30;
-
-  const options = [];
-  for (let i = 720; i <= maxMinutes; i += interval) {
-    const hours = Math.floor(i / 60);
-    const minutes = i % 60;
-    const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-      minutes
-    ).padStart(2, "0")}`;
-    options.push(
-      <option value={formattedTime} key={formattedTime}>
-        {formattedTime}
-      </option>
-    );
-  }
-
-  return (
-    <div className="placeorder">
-      <h3>Name:</h3>
-      <input
-        type="text"
-        style={margin}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <h3>Email:</h3>
-      <input
-        type="text"
-        style={margin}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      {/* <h3 style={{ marginLeft: "160px" }}>Pickup Time:</h3>
-      <input
-        type="text"
-        style={{ width: "150px", marginLeft: "160px" }}
-        placeholder={time}
-      /> */}
-      <div style={{ display: "flex" }}>
-        <h3 style={{ marginLeft: "160px" }}>Pickup Time:</h3>
-        <select
-          value={pickupTime}
-          onChange={(e) => setPickupTime(Number(e.target.value))}
-          style={{ textAlign: "auto", marginLeft: "5px" }}
-        >
-          {options}
-        </select>
-      </div>
-      <div style={{ marginLeft: "200px", marginTop: "10px" }}>
-        <select value={where} onChange={(e) => setWhere(e.target.value)}>
-          <option>Indoor</option>
-          <option>Outdoor</option>
-        </select>
-      </div>
     </div>
   );
 }

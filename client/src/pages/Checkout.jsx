@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
 // import { useUserStore } from "../Global/userState";
 import { Payment } from "../Components/Payment";
 
