@@ -89,7 +89,7 @@ function Food({ foodObj, addItems }) {
   const name = foodObj.name;
   const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);
-  const [userRating, setUserRating] = useState("");
+  const [userRating, setUserRating] = useState(3);
   const { role } = useUserStore();
 
   function handleClick(e) {

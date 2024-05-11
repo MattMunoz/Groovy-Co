@@ -65,18 +65,10 @@ export function Payment({ orderNo }) {
     await sleep(2000);
     try {
       const { data } = await axios.post("http://localhost:4000/AddOrder", {
-        id: id,
+        orderer: id,
+        items: orderItems,
       });
       console.log(data);
-      const { user, success } = data;
-      if (success) {
-        updateBalance(user.balance);
-        toast.success(`Order Placed`, {
-          position: "bottom-left",
-          hideProgressBar: true,
-        });
-        state.submitButton = "";
-      }
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +80,7 @@ export function Payment({ orderNo }) {
 
   const total = (acc * (100 - discount)) / 100;
 
-  const enoughMoney = balance > total;
+  const enoughMoney = balance >= total;
   /*
   function update(total) {
     updateBalance(balance - total);
@@ -147,7 +139,7 @@ export function Payment({ orderNo }) {
           <Link className="btn" onClick={balancePayment} to={"/"}>
             Place Order
           </Link>
-          <ToastContainer />;
+          <ToastContainer />
         </>
       ) : (
         ""
