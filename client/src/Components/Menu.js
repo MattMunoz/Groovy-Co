@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { StarRating } from "./StarRating";
 import { useUserStore } from "../Global/userState";
+import axios from "axios";
 
 export function Menu({ onAddItems }) {
   const foods = [
@@ -48,6 +49,7 @@ export function Menu({ onAddItems }) {
       soldOut: false,
     },
   ];
+
   //const pizzas = [];
   const numfoods = foods.length;
 
@@ -83,13 +85,14 @@ export function Menu({ onAddItems }) {
     </main>
   );
 }
+
 function Food({ foodObj, addItems }) {
   //if (foodObj.soldOut) return null;
 
   const name = foodObj.name;
   const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);
-  const [userRating, setUserRating] = useState(3);
+  const [userRating, setUserRating] = useState(0);
   const { role } = useUserStore();
 
   function handleClick(e) {
@@ -99,6 +102,19 @@ function Food({ foodObj, addItems }) {
     console.log(orderItem);
 
     addItems(orderItem);
+  }
+
+  async function updateRating(e) {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("http://localhost:4000/RateDish", {
+        id: foodObj.name,
+        rating: userRating,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -135,7 +151,7 @@ function Food({ foodObj, addItems }) {
           </span>
         </div>
       </li>
-      <div className="star">
+      <div className="star" onClick={updateRating}>
         <StarRating size="25" onSetRating={setUserRating} defaultRating="0" />
       </div>
     </div>

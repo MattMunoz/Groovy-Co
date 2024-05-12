@@ -6,7 +6,7 @@ export function Footer({ activeUser }) {
   // const hour = new Date().getHours();
   // console.log(hour);
   const openHour = 12;
-  const closeHour = 22;
+  const closeHour = 30;
   // const isOpen = hour >= openHour && hour < closeHour;
   const isOpen = true;
 

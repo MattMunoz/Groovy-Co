@@ -14,7 +14,7 @@ export function Header() {
   const path = location.pathname;
   const [clearOrderItems] = useUserStore((state) => [state.clearOrderItems]);
 
-  console.log(path);
+  console.log(username);
   console.log(level);
   const Logout = () => {
     // console.log(cookies)

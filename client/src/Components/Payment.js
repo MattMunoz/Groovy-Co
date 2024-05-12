@@ -8,7 +8,7 @@ import { DineInForm } from "./DineInForm";
 import { DeliveryForm } from "./DeliveryForm";
 
 export function Payment({ orderNo }) {
-  const [type, setType] = useState("Delivery");
+  const [orderType, setOrderType] = useState("Delivery");
   const [clearOrderItems] = useUserStore((state) => [state.clearOrderItems]);
   const { id, level, balance, updateBalance } = useUserStore();
   // console.log(username, id)
@@ -67,6 +67,7 @@ export function Payment({ orderNo }) {
       const { data } = await axios.post("http://localhost:4000/AddOrder", {
         orderer: id,
         items: orderItems,
+        type: orderType,
       });
       console.log(data);
     } catch (error) {
@@ -122,17 +123,23 @@ export function Payment({ orderNo }) {
         <p className="name">Total</p>
         <p className="price">{(total * (100 - discount)) / 100}</p>
       </span>
-      <span className="orderitem" onChange={(e) => setType(e.target.value)}>
+      <span
+        className="orderitem"
+        onChange={(e) => setOrderType(e.target.value)}
+      >
         <p>Order Type</p>
-        <select value={type} onChange={(e) => setType(e.target.value)}>
+        <select
+          value={orderType}
+          onChange={(e) => setOrderType(e.target.value)}
+        >
           <option>Delivery</option>
           <option>Pickup</option>
           <option>Dine-In</option>
         </select>
       </span>
-      {type === "Delivery" && <DeliveryForm />}
-      {type === "Pickup" && ""}
-      {type === "Dine-In" && <DineInForm />}
+      {orderType === "Delivery" && <DeliveryForm />}
+      {orderType === "Pickup" && ""}
+      {orderType === "Dine-In" && <DineInForm />}
 
       {enoughMoney && total !== 0 ? (
         <>
