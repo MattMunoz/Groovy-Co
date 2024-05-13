@@ -1,7 +1,7 @@
 import { Header } from "../Components/Header";
 import { Menu } from "../Components/Menu";
 import { Footer } from "../Components/Footer";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -25,6 +25,7 @@ export default function MainMenu() {
     state.orderItems,
     state.setOrderItems,
   ]);
+  const [foods, setFoods] = useState([]);
 
   function handleAddItems(item) {
     if (role === null) {
@@ -74,17 +75,27 @@ export default function MainMenu() {
     updateLevel,
   ]);
 
-  console.log(userLevel);
+  useEffect(() => {
+    fetch("http://localhost:4000/GetAllDishes")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setFoods(data.dishes);
+      });
+  }, []);
+
+  console.log(foods);
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       <div className="main">
         <Header />
         <div style={{ paddingBottom: "15%" }}>
-          <Menu onAddItems={handleAddItems} />
+          <Menu onAddItems={handleAddItems} foods={foods} />
         </div>
       </div>
-      <Footer activeuser={cookies.token} />
+      {/* <Footer activeuser={cookies.token} noFood={foods.length} /> */}
       <div className="bar">
         <strong>Groovy Co.</strong>
       </div>

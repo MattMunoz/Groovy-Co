@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../Components/Header";
 import { Navigate } from "react-router-dom";
 import { useUserStore } from "../Global/userState";
@@ -18,37 +18,34 @@ export default function UpdateMenu() {
 
 function Add() {
   const [ingredientList, setingredientList] = useState([]);
-  const [img, setImg] = useState();
-  const [selectedFile, setSelectedFile] = useState("");
-  const [ingredient, setIngredient] = useState("");
+  const [img, setImg] = useState("");
+  const [name, setIngredient] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [description, setDescription] = useState("");
   const [dishName, setDishName] = useState("");
-  const [price, setPrice] = useState(0);
-  const { username } = useUserStore();
-  console.log(username);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
+  const [dishPrice, setPrice] = useState(0);
+  const { id } = useUserStore();
+  const [foods, setFoods] = useState([]);
+  console.log(id);
 
   function handleDeleteIngredient(id) {
-    setingredientList((items) => items.filter((items) => items.id !== id));
+    setingredientList((items) => items.filter((items) => items.name !== id));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!ingredient) return;
+    if (!name) return;
 
-    const newIngredient = { ingredient, quantity, id: Date.now() };
+    const newIngredient = { name, quantity };
 
-    setingredientList((ingredient) => [...ingredient, newIngredient]);
+    setingredientList((name) => [...name, newIngredient]);
 
     setIngredient("");
     setQuantity(1);
   }
+
+  console.log(ingredientList);
 
   async function Added(e) {
     e.preventDefault();
@@ -56,15 +53,52 @@ function Add() {
       const { data } = await axios.post("http://localhost:4000/AddDish", {
         name: dishName,
         description: description,
-        price: price,
         ingredients: ingredientList,
-        createdBy: username,
+        price: dishPrice,
+        imageURL: img,
+        createdBy: id,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+    setingredientList([]);
+    setImg("");
+    setDescription("");
+    setDishName("");
+    setPrice(0);
+  }
+
+  useEffect(() => {
+    fetch("http://localhost:4000/GetAllDishes")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setFoods(data.dishes);
+      });
+  }, []);
+
+  async function handelRemoveded(e) {
+    try {
+      const { data } = await axios.post("http://localhost:4000/RemoveDish", {
+        id: e,
       });
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   }
+
+  console.log(foods);
+
+  console.log(dishName);
+  console.log(description);
+  console.log(ingredientList);
+  console.log(img);
+  console.log(dishPrice);
+  console.log(id);
+
   return (
     <div>
       <h1>Add Dish</h1>
@@ -72,31 +106,21 @@ function Add() {
         style={{
           textAlign: "center",
           backgroundColor: "lightyellow",
-          display: "flex",
         }}
       >
-        <div className="app">
-          <div className="parent">
-            <div className="file-upload">
-              <img src={"food/foodOutline.jpg"} alt="upload" />
-              <h3> "Click box to upload"</h3>
-              <p>Maximun file size 10mb</p>
-              <input type="file" onChange={handleFileChange} />
-              <p>
-                {" "}
-                File Name:
-                {selectedFile === null ? (
-                  ""
-                ) : (
-                  <strong style={{ color: "black" }}>
-                    {selectedFile.name}
-                  </strong>
-                )}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div style={{ flexDirection: "column", marginLeft: "20px" }}>
+        <h3>Image URL</h3>
+        <input
+          type="text"
+          value={img}
+          onChange={(e) => setImg(e.target.value)}
+        />
+        <div style={{ marginTop: "15px" }}></div>
+        {img === "" ? (
+          ""
+        ) : (
+          <img src={img} alt={dishName} style={{ width: "12rem" }} />
+        )}
+        <div>
           <div>
             <h3>Name:</h3>
             <input
@@ -122,7 +146,7 @@ function Add() {
             <input
               type="text"
               placeholder="Ingredient..."
-              value={ingredient}
+              value={name}
               onChange={(e) => setIngredient(e.target.value)}
               style={{ width: "420px", height: "30px" }}
             />
@@ -149,7 +173,7 @@ function Add() {
               type="number"
               min={1}
               max={25}
-              value={price}
+              value={dishPrice}
               onChange={(e) => setPrice(Number(e.target.value))}
             />
           </div>
@@ -162,6 +186,46 @@ function Add() {
       >
         Submit Dish
       </button>
+      <RemoveDish foods={foods} removed={handelRemoveded} />
+      <div className="bar" style={{ marginTop: "50px" }}>
+        <strong>Groovy Co.</strong>
+      </div>
+    </div>
+  );
+}
+
+function RemoveDish({ foods, removed }) {
+  return (
+    <main className="menu">
+      <div style={{ marginTop: "30px" }}>
+        <h1>Menu</h1>
+        <ul className="foods">
+          {foods.map((food) => (
+            <Food foodObj={food} key={food._id} removed={removed} />
+          ))}
+        </ul>
+      </div>
+    </main>
+  );
+}
+
+function Food({ foodObj, removed }) {
+  console.log(foodObj._id);
+  return (
+    <div style={{ pb: "5%" }}>
+      <li className={`food`}>
+        <img src={foodObj.imageURL} alt={foodObj.name} />
+        <div>
+          <h3>{foodObj.name}</h3>
+          <p>{foodObj.description}</p>
+          <span>
+            <button type="button" onClick={() => removed(foodObj._id)}>
+              <strong>Remove</strong>
+            </button>
+          </span>
+        </div>
+      </li>
+      <div className="star"></div>
     </div>
   );
 }
@@ -186,7 +250,7 @@ function Ingredient({ ingredient, onDeleteIngredient }) {
     <li style={{ listStyleType: "none" }}>
       <span>
         <strong style={{ fontSize: "15px" }}>
-          {ingredient.ingredient} {ingredient.quantity}
+          {ingredient.name} {ingredient.quantity}
         </strong>
       </span>
       <button
@@ -196,7 +260,7 @@ function Ingredient({ ingredient, onDeleteIngredient }) {
           marginBottom: "5px",
           color: "red",
         }}
-        onClick={() => onDeleteIngredient(ingredient.id)}
+        onClick={() => onDeleteIngredient(ingredient.name)}
         className="remove"
       >
         X
@@ -204,53 +268,3 @@ function Ingredient({ ingredient, onDeleteIngredient }) {
     </li>
   );
 }
-
-// name: {
-//   type: String,
-//   required: true,
-// },
-// description: {
-//   type: String,
-//   required: true,
-// },
-// price: {
-//   type: Number,
-//   required: true,
-// },
-// ingredients: [
-//   {
-//     name: {
-//       type: String,
-//       required: true,
-//     },
-//     quantity: {
-//       type: Number,
-//       required: true,
-//     },
-//   },
-// ],
-// rating: {
-//   type: Number,
-//   default: 0,
-// },
-// timesRated:{
-//   type: Number,
-//   default: 0
-// },
-// imageURL: {
-//   type: String,
-//   required: true,
-// },
-// createdBy: {
-//   type: String,
-//   required: true,
-// },
-// createdAt: {
-//   type: Date,
-//   default: new Date(),
-// },
-// soldOut:{
-//   type: Boolean,
-//   default: false
-// }
-// });

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../Global/userState";
 
-export function Footer({ activeUser }) {
+export function Footer({ activeUser, noFood }) {
   // const hour = new Date().getHours();
   // console.log(hour);
   const openHour = 12;
@@ -27,6 +27,7 @@ export function Footer({ activeUser }) {
             closeHour={closeHour}
             openHour={openHour}
             activeUser={activeUser}
+            noFood={noFood}
           />
         ) : (
           <p>
@@ -38,23 +39,25 @@ export function Footer({ activeUser }) {
   );
   //return React.createElement("footer", null, "We're currently open.");
 }
-function Order({ closeHour, openHour, activeUser }) {
+function Order({ closeHour, openHour, activeUser, noFood }) {
   const { role } = useUserStore();
   console.log(role);
   return (
     <div className="order">
-      <p>
-        We're open from {openHour}:00 until {closeHour}:00.
-      </p>
-
       {role !== null ? (
-        <Link
-          className="btn"
-          to={"/checkout"}
-          style={{ textDecoration: "none" }}
-        >
-          Checkout
-        </Link>
+        <>
+          {noFood !== 0 ? (
+            <Link
+              className="btn"
+              to={"/checkout"}
+              style={{ textDecoration: "none" }}
+            >
+              Checkout
+            </Link>
+          ) : (
+            ""
+          )}
+        </>
       ) : (
         <Link className="btn" to={"/signup"} style={{ textDecoration: "none" }}>
           Apply for Membership!

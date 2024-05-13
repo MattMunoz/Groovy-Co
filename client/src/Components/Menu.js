@@ -4,51 +4,51 @@ import { StarRating } from "./StarRating";
 import { useUserStore } from "../Global/userState";
 import axios from "axios";
 
-export function Menu({ onAddItems }) {
-  const foods = [
-    {
-      name: "Focaccia",
-      ingredients: "Bread with italian olive oil and rosemary",
-      price: 6,
-      photoName: "food/focaccia.jpg",
-      soldOut: false,
-    },
-    {
-      name: "Pizza Margherita",
-      ingredients: "Tomato and mozarella",
-      price: 10,
-      photoName: "food/margherita.jpg",
-      soldOut: false,
-    },
-    {
-      name: "Pizza Spinaci",
-      ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
-      price: 12,
-      photoName: "food/spinaci.jpg",
-      soldOut: false,
-    },
-    {
-      name: "Pizza Funghi",
-      ingredients: "Tomato, mozarella, mushrooms, and onion",
-      price: 12,
-      photoName: "food/funghi.jpg",
-      soldOut: false,
-    },
-    {
-      name: "Pizza Salamino",
-      ingredients: "Tomato, mozarella, and pepperoni",
-      price: 15,
-      photoName: "food/salamino.jpg",
-      soldOut: true,
-    },
-    {
-      name: "Pizza Prosciutto",
-      ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
-      price: 18,
-      photoName: "food/prosciutto.jpg",
-      soldOut: false,
-    },
-  ];
+export function Menu({ onAddItems, foods }) {
+  // const foods = [
+  //   {
+  //     name: "Focaccia",
+  //     ingredients: "Bread with italian olive oil and rosemary",
+  //     price: 6,
+  //     photoName: "food/focaccia.jpg",
+  //     soldOut: false,
+  //   },
+  //   {
+  //     name: "Pizza Margherita",
+  //     ingredients: "Tomato and mozarella",
+  //     price: 10,
+  //     photoName: "food/margherita.jpg",
+  //     soldOut: false,
+  //   },
+  //   {
+  //     name: "Pizza Spinaci",
+  //     ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
+  //     price: 12,
+  //     photoName: "food/spinaci.jpg",
+  //     soldOut: false,
+  //   },
+  //   {
+  //     name: "Pizza Funghi",
+  //     ingredients: "Tomato, mozarella, mushrooms, and onion",
+  //     price: 12,
+  //     photoName: "food/funghi.jpg",
+  //     soldOut: false,
+  //   },
+  //   {
+  //     name: "Pizza Salamino",
+  //     ingredients: "Tomato, mozarella, and pepperoni",
+  //     price: 15,
+  //     photoName: "food/salamino.jpg",
+  //     soldOut: true,
+  //   },
+  //   {
+  //     name: "Pizza Prosciutto",
+  //     ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
+  //     price: 18,
+  //     photoName: "food/prosciutto.jpg",
+  //     soldOut: false,
+  //   },
+  // ];
 
   //const pizzas = [];
   const numfoods = foods.length;
@@ -62,7 +62,7 @@ export function Menu({ onAddItems }) {
           <p>Delicious food curated by our two world renowned chefs.</p>
           <ul className="foods">
             {foods.map((food) => (
-              <Food foodObj={food} addItems={onAddItems} key={food.name} />
+              <Food foodObj={food} addItems={onAddItems} key={food._id} />
             ))}
           </ul>
         </>
@@ -89,6 +89,8 @@ export function Menu({ onAddItems }) {
 function Food({ foodObj, addItems }) {
   //if (foodObj.soldOut) return null;
 
+  console.log(foodObj);
+
   const name = foodObj.name;
   const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);
@@ -104,34 +106,30 @@ function Food({ foodObj, addItems }) {
     addItems(orderItem);
   }
 
-  async function updateRating(e) {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post("http://localhost:4000/RateDish", {
-        id: foodObj.name,
-        rating: userRating,
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async function updateRating(e) {
+  //   e.preventDefault();
+  //   try {
+  //     const { data } = await axios.post("http://localhost:4000/RateDish", {
+  //       id: foodObj.name,
+  //       rating: userRating,
+  //     });
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <div style={{ pb: "5%" }}>
-      <li className={`food ${foodObj.soldOut ? "sold-out" : ""}`}>
-        <img src={foodObj.photoName} alt={foodObj.name} />
+      <li className={`food`}>
+        <img src={foodObj.imageURL} alt={foodObj.name} />
         <div>
           <h3>{foodObj.name}</h3>
-          <p>{foodObj.ingredients}</p>
+          <p>{foodObj.description}</p>
           <span className="btnRating">
-            {foodObj.soldOut ? (
-              "SOLD OUT"
-            ) : (
-              <button type="button" onClick={handleClick}>
-                $ <strong>{foodObj.price}</strong>
-              </button>
-            )}
+            <button type="button" onClick={handleClick}>
+              $ <strong>{foodObj.price}</strong>
+            </button>
             {role === null ? (
               <div />
             ) : (
@@ -151,8 +149,8 @@ function Food({ foodObj, addItems }) {
           </span>
         </div>
       </li>
-      <div className="star" onClick={updateRating}>
-        <StarRating size="25" onSetRating={setUserRating} defaultRating="0" />
+      <div className="star">
+        <StarRating size={25} onSetRating={setUserRating} />
       </div>
     </div>
   );
