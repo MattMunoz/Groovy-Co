@@ -26,7 +26,6 @@ export function StarRating({
   color = "#fcc419",
   size = 48,
   className = "",
-  messages = [],
   defaultRating = 0,
   onSetRating,
 }) {

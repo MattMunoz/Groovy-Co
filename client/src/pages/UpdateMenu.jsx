@@ -3,6 +3,7 @@ import { Header } from "../Components/Header";
 import { Navigate } from "react-router-dom";
 import { useUserStore } from "../Global/userState";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function UpdateMenu() {
   const { role } = useUserStore();
@@ -84,10 +85,18 @@ function Add() {
       const { data } = await axios.post("http://localhost:4000/RemoveDish", {
         id: e,
       });
+      
+      if (success) {
+        toast.success(`Dish Removed`, {
+          position: "bottom-left",
+          hideProgressBar: true,
+        });
+      }
       console.log(data);
     } catch (error) {
       console.log(error);
     }
+    <ToastContainer />;
   }
 
   console.log(foods);

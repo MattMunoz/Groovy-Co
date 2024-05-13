@@ -95,6 +95,11 @@ function Food({ foodObj, addItems }) {
   const [userRating, setUserRating] = useState(0);
   const { role } = useUserStore();
 
+  function Rating(rate) {
+    setUserRating(rate);
+    console.log(userRating);
+  }
+
   function handleClick(e) {
     e.preventDefault();
 
@@ -104,18 +109,18 @@ function Food({ foodObj, addItems }) {
     addItems(orderItem);
   }
 
-  // async function updateRating(e) {
-  //   e.preventDefault();
-  //   try {
-  //     const { data } = await axios.post("http://localhost:4000/RateDish", {
-  //       id: foodObj.name,
-  //       rating: userRating,
-  //     });
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  async function Revieweded(e) {
+    try {
+      const { data } = await axios.post("http://localhost:4000/RateDish", {
+        id: foodObj._id,
+        rating: e,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(foodObj.rating);
 
   return (
     <div style={{ pb: "5%" }}>
@@ -148,7 +153,11 @@ function Food({ foodObj, addItems }) {
         </div>
       </li>
       <div className="star">
-        <StarRating size={25} onSetRating={setUserRating} />
+        <StarRating
+          size={25}
+          onSetRating={Revieweded}
+          defaultRating={foodObj.rating}
+        />
       </div>
     </div>
   );
