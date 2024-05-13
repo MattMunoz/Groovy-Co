@@ -39,7 +39,7 @@ export function Footer({ activeUser, noFood }) {
   );
   //return React.createElement("footer", null, "We're currently open.");
 }
-function Order({ closeHour, openHour, activeUser, noFood }) {
+function Order({ closeHour, openHour, noFood }) {
   const { role } = useUserStore();
   console.log(role);
   return (

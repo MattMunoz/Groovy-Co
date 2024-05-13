@@ -89,8 +89,6 @@ export function Menu({ onAddItems, foods }) {
 function Food({ foodObj, addItems }) {
   //if (foodObj.soldOut) return null;
 
-  console.log(foodObj);
-
   const name = foodObj.name;
   const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);

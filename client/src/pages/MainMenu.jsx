@@ -85,8 +85,6 @@ export default function MainMenu() {
       });
   }, []);
 
-  console.log(foods);
-
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       <div className="main">
@@ -95,7 +93,7 @@ export default function MainMenu() {
           <Menu onAddItems={handleAddItems} foods={foods} />
         </div>
       </div>
-      {/* <Footer activeuser={cookies.token} noFood={foods.length} /> */}
+      <Footer activeuser={cookies.token} noFood={foods.length} />
       <div className="bar">
         <strong>Groovy Co.</strong>
       </div>
