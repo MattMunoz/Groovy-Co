@@ -70,10 +70,10 @@ module.exports.GetOpenCustomerOrders = async (req, res, next) => {
 
 module.exports.FulfillOrder = async(req,res,next)=> {
 	try{
-		const {orderId, role} = req.body
+		const {orderId, id, role} = req.body
 		if(!orderId || !role) return res.status(400).json({ message: "Need order id and user role" });
 		if(role !== "Importer" && role !== "Chef") return res.status(400).json({ message: "given role is not an importer or chef" });
-		const result = await Order.findByIdAndUpdate(orderId, {fulfilled:true}, {new:true})
+		const result = await Order.findByIdAndUpdate(orderId, {fulfilled:true, fulfilledBy: id}, {new:true})
 		if(!result)
 			return res.status(400).json({ message: "Order id does not exist!" });
 		res.status(200).json({ message: "Order Successfully fulfilled", result });
@@ -88,7 +88,7 @@ module.exports.GetUserOrders = async(req,res,next) =>{
 	try{
 		const {id} = req.body
 		if (!id) {
-			return res.status(400).json({ message: "Need user id" });
+			return res.status(400).json({ message: "Need user id", id });
 		}
 
 		const orders = await Order.find({orderer: id, complete:false, fulfilled:true},{}, {new:true})
