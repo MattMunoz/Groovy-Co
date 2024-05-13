@@ -108,7 +108,7 @@ export default function Signup() {
 
                 <option value="Manager">Manager</option>
                 <option value="Importer">Importer</option>
-                <option value="Deliverer">Importer</option>
+                <option value="Deliverer">Deliverer</option>
               </select>
             </div>
             <button type="submit">Submit</button>

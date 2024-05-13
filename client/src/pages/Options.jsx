@@ -3,6 +3,7 @@ import { Navigate, Link } from "react-router-dom";
 import { ToastContainer} from "react-toastify";
 import Balance from "../Components/Balance";
 import { useUserStore } from "../Global/userState";
+import FulfillIngredientOrder from "../Components/FulfillIngredientOrder";
 
 export default function Options() {
   const {id, role} = useUserStore();
@@ -12,7 +13,7 @@ export default function Options() {
       <Header />
       { role === "Manager"}
 
-      { role === "Importer"}
+      { role === "Importer" && <FulfillIngredientOrder />}
 
       { role === "Customer" &&
        <Balance />

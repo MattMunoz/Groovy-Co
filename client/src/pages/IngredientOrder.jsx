@@ -13,22 +13,22 @@ export default function IngredientOrder(){
   const [ingredientAmount, setIngredientAmount] = useState(0);
   const [allIngredients, setAllIngredients] = useState([]);
 
-
+  async function getAllIngredients() {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:4000/GetAllIngredients"
+      );
+      for(const item of data.data){
+        item.orderQuantity = 0
+      }
+      setAllIngredients(data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   
   useEffect(() => {
-    async function getAllIngredients() {
-      try {
-        const { data } = await axios.get(
-          "http://localhost:4000/GetAllIngredients"
-        );
-        for(const item of data.data){
-          item.orderQuantity = 0
-        }
-        setAllIngredients(data.data);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    
     getAllIngredients();
     // console.log(allIngredients)
   }, []);
@@ -62,6 +62,28 @@ export default function IngredientOrder(){
     }
   }
 
+  async function submitOrder(){
+    try{
+      const update = allIngredients.filter(item => item.orderQuantity > 0)
+      for(const item of update) item.quantity = item.orderQuantity
+      console.log(update)
+      const { data } = await axios.post(
+        "http://localhost:4000/AddOrder",
+        {
+          orderer: id,
+          items: update
+        })
+
+      if(data) getAllIngredients()
+      console.log(data)
+
+      
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
 
   return(
     role === "Chef" ?
@@ -92,8 +114,16 @@ export default function IngredientOrder(){
           <div className="ingredients-item">
           <button title="+" className="btn" onClick={()=>{Add()}} >Add to Order</button>
           </div>
-      
+
+          <div className="ingredients-item" />
+
+
+          <div className="ingredients-item">
+          <button className="btn" onClick={()=>submitOrder()}>Submit Order</button>
+          </div>
+          
       </div>
+      
     </>
     :
     <Navigate to="/" />

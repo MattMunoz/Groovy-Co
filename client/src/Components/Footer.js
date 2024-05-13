@@ -41,10 +41,10 @@ export function Footer({ activeUser, noFood }) {
 }
 function Order({ closeHour, openHour, noFood }) {
   const { role } = useUserStore();
-  console.log(role);
+  // console.log(role);
   return (
     <div className="order">
-      {role !== null ? (
+      {role === "Customer" && (
         <>
           {noFood !== 0 ? (
             <Link
@@ -58,7 +58,8 @@ function Order({ closeHour, openHour, noFood }) {
             ""
           )}
         </>
-      ) : (
+      )}
+      {!role && (
         <Link className="btn" to={"/signup"} style={{ textDecoration: "none" }}>
           Apply for Membership!
         </Link>

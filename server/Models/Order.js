@@ -5,6 +5,10 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  fulfilled:{
+    type:Boolean,
+    default: false
+  },
   complete: {
     type: Boolean,
     default: false

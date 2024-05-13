@@ -36,7 +36,7 @@ module.exports.CompleteOrder = async (req, res, next) => {
 
 		const order = await Order.findByIdAndUpdate(
 			id,
-			{ complete: true },
+			{ complete: true, fulfilled:true },
 			{ new: true },
 		);
 		if (!order)
@@ -50,7 +50,7 @@ module.exports.CompleteOrder = async (req, res, next) => {
 
 module.exports.GetOpenChefOrders = async (req, res, next) => {
 	try {
-		const orders = await Order.find({ type: "Chef", complete: false }).lean();
+		const orders = await Order.find({ type: "Chef", fulfilled: false }).lean();
 		res.status(200).json({ message: "Got all open chef orders", orders });
 		next();
 	} catch (error) {
@@ -60,13 +60,45 @@ module.exports.GetOpenChefOrders = async (req, res, next) => {
 
 module.exports.GetOpenCustomerOrders = async (req, res, next) => {
 	try {
-		const orders = await Order.find({ type: "Customer", complete: false }).lean();
+		const orders = await Order.find({ type: "Customer", fulfilled: false }).lean();
 		res.status(200).json({ message: "Got all open customer orders", orders });
 		next();
 	} catch (error) {
 		res.status(500).json({ error });
 	}
 };
+
+module.exports.FulfillOrder = async(req,res,next)=> {
+	try{
+		const {orderId, role} = req.body
+		if(!orderId || !role) return res.status(400).json({ message: "Need order id and user role" });
+		if(role !== "Importer" && role !== "Chef") return res.status(400).json({ message: "given role is not an importer or chef" });
+		const result = await Order.findByIdAndUpdate(orderId, {fulfilled:true}, {new:true})
+		if(!result)
+			return res.status(400).json({ message: "Order id does not exist!" });
+		res.status(200).json({ message: "Order Successfully fulfilled", result });
+		next();
+	}
+	catch (error) {
+		res.status(500).json({ error });
+	}
+}
+
+module.exports.GetUserOrders = async(req,res,next) =>{
+	try{
+		const {id} = req.body
+		if (!id) {
+			return res.status(400).json({ message: "Need user id" });
+		}
+
+		const orders = await Order.find({orderer: id, complete:false, fulfilled:true},{}, {new:true})
+		res.status(200).json({ message: "Got all users fulfilled open orders", orders });
+		next();
+	}
+	catch (error) {
+		res.status(500).json({ error });
+	}
+}
 /*
 	When an order is made by a customer:
 		1. the user needs to decide if its a pickup, delivery, or reservation

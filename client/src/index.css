@@ -535,6 +535,21 @@ select {
   text-align: left;
   font-size: small;
 }
+.order-container {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  text-align: left;
+  row-gap: 5%;
+  grid-template-columns: auto auto;
+  grid-auto-flow: row;
+  min-height: fit-content;
+}
+.order-item {
+  display: flex;
+  text-align: left;
+  font-size: small;
+}
 .center {
   display: flex;
   width: 100%;
