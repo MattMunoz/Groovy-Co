@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Login, Signup, Options } from "./pages";
+import { Login, Signup, Options, RateFulfilledOrders } from "./pages";
 
 import React from "react";
 import "./index.css";
@@ -19,6 +19,7 @@ function App() {
         <Route path="/" element={<MainMenu />} />
         <Route path="/options" element={<Options />} />
         <Route path="/ingredientorder" element={<IngredientOrder />} />
+        <Route path="/ratefulfilledorders" element={<RateFulfilledOrders />} />
       </Routes>
     </div>
   );

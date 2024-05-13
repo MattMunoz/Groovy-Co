@@ -4,6 +4,7 @@ import { ToastContainer} from "react-toastify";
 import Balance from "../Components/Balance";
 import { useUserStore } from "../Global/userState";
 import FulfillIngredientOrder from "../Components/FulfillIngredientOrder";
+import DisputeComplaint from "../Components/DisputeComplaint";
 
 export default function Options() {
   const {id, role} = useUserStore();
@@ -25,19 +26,30 @@ export default function Options() {
           <Link
             className="btn"
             to={"/UpdateMenu"}
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: "none", margin:"10px" }}
           >
             UpdateMenu
           </Link> 
           <Link
             className="btn"
             to={"/IngredientOrder"}
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: "none", margin:"10px"  }}
           >
             Create Ingredient Order
           </Link> 
+          <Link
+            className="btn"
+            to={"/RateFulfilledOrders"}
+            style={{ textDecoration: "none", margin:"10px"  }}
+          >
+            Rate Fulfilled Orders
+          </Link> 
+          <br />
           </ div>
+
         }
+        <DisputeComplaint />
+
       </div>
       {/* {role === "Chef" ? (
         <div>

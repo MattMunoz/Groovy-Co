@@ -88,7 +88,7 @@ export function Menu({ onAddItems, foods }) {
 
 function Food({ foodObj, addItems }) {
   //if (foodObj.soldOut) return null;
-
+  const soldOut = foodObj.soldOut
   const name = foodObj.name;
   const price = foodObj.price;
   const [quantity, setQuantity] = useState(1);
@@ -97,7 +97,6 @@ function Food({ foodObj, addItems }) {
 
   function handleClick(e) {
     e.preventDefault();
-
     const orderItem = { name, price, quantity };
     console.log(orderItem);
 
@@ -125,7 +124,7 @@ function Food({ foodObj, addItems }) {
           <h3>{foodObj.name}</h3>
           <p>{foodObj.description}</p>
           <span className="btnRating">
-            <button type="button" onClick={handleClick}>
+            <button type="button" onClick={handleClick} disabled={soldOut}>
               $ <strong>{foodObj.price}</strong>
             </button>
             {role === null ? (

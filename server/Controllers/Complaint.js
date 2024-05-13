@@ -28,7 +28,7 @@ module.exports.DisputeComplaint = async (req, res, next) => {
   try {
     const { id, dispute } = req.body;
     if (!id || !dispute)
-      return res.json({ message: "Id and dispute string required" });
+      return res.status(400).json({ message: "Id and dispute string required" });
     const complaint = await Complaint.findOneAndUpdate(
       { _id: id },
       { dispute: dispute },
@@ -63,6 +63,19 @@ module.exports.GetOpenComplaints = async (req, res, next) =>{
   try{
     const complaints = await Complaint.find({open:true}).lean()
     res.status(200).json({ message: "Got all open complaints", complaints });
+    next();
+  }catch(e){
+    return res
+    .status(500)
+    .json({message: e})
+  }
+}
+
+module.exports.GetUndisputedComplaints = async (req,res,next) =>{
+  try{
+    const {id} = req.body
+    const complaints = await Complaint.find({to:id, dispute:undefined}).lean()
+    res.status(200).json({ message: "Got users undisputed complaints", complaints });
     next();
   }catch(e){
     return res

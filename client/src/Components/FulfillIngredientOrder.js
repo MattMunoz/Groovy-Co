@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState,Fragment } from "react";
 
 export default function FulfillIngredientOrder() {
-  const {role} = useUserStore()
+  const {role, id} = useUserStore()
   const [openOrders, setOpenOrders] = useState([]);
   async function getOpenOrders() {
     try {
@@ -17,7 +17,6 @@ export default function FulfillIngredientOrder() {
     }
   }
   useEffect(() => {
-    
     getOpenOrders();
   }, []);
 
@@ -56,7 +55,7 @@ export default function FulfillIngredientOrder() {
     try {
       const { data } = await axios.post(
         "http://localhost:4000/FulfillOrder",
-         {orderId:order._id, role}
+         {orderId:order._id, role, id}
       );
 
       if(data){
