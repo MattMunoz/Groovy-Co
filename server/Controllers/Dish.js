@@ -21,11 +21,15 @@ module.exports.AddDish = async (req, res, next) => {
       { name: true, quantity: true }
     ).lean();
     let soldOut = false;
-    for (const item of ingredients) {
-      const ing = stock.find((ing) => ing.name === item.name);
-      if (!ing || (ing && ing.quantity < item.quantity)) {
-        soldOut = true;
-        break;
+		if(!stock) soldOut = true
+		
+		else{
+	    for (const item of ingredients) {
+	      const ing = stock.find((ing) => ing.name === item.name);
+	      if (!ing || (ing && ing.quantity < item.quantity)) {
+	        soldOut = true;
+	        break;
+				}
       }
     }
 

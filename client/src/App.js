@@ -6,6 +6,7 @@ import "./index.css";
 import MainMenu from "./pages/MainMenu";
 import Checkout from "./pages/Checkout";
 import UpdateMenu from "./pages/UpdateMenu";
+import IngredientOrder from "./pages/IngredientOrder";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/" element={<MainMenu />} />
         <Route path="/options" element={<Options />} />
+        <Route path="/ingredientorder" element={<IngredientOrder />} />
       </Routes>
     </div>
   );
