@@ -85,7 +85,7 @@ function Add() {
       const { data } = await axios.post("http://localhost:4000/RemoveDish", {
         id: e,
       });
-      
+      const {success} = data
       if (success) {
         toast.success(`Dish Removed`, {
           position: "bottom-left",
