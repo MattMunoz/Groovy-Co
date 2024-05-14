@@ -73,6 +73,7 @@ export function Payment({ orderNo }) {
     } catch (error) {
       console.log(error);
     }
+    console.log(orderType);
     clearOrderItems();
     navigate("/");
   }
@@ -123,10 +124,7 @@ export function Payment({ orderNo }) {
         <p className="name">Total</p>
         <p className="price">{(total * (100 - discount)) / 100}</p>
       </span>
-      <span
-        className="orderitem"
-        onChange={(e) => setOrderType(e.target.value)}
-      >
+      <span className="orderitem">
         <p>Order Type</p>
         <select
           value={orderType}

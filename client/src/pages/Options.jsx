@@ -6,9 +6,12 @@ import Balance from "../Components/Balance";
 import { useUserStore } from "../Global/userState";
 import FulfillIngredientOrder from "../Components/FulfillIngredientOrder";
 import DisputeComplaint from "../Components/DisputeComplaint";
+import { OpenOrders } from "../Components/OpenOrders";
 
 export default function Options() {
   const { id, role } = useUserStore();
+
+  console.log(role);
 
   return id !== null ? (
     <div>
@@ -16,6 +19,8 @@ export default function Options() {
       {role === "Manager"}
 
       {role === "Importer" && <FulfillIngredientOrder />}
+
+      {role === "Deliverer" && <OpenOrders />}
 
       {role === "Customer" && <Balance />}
       <br />
@@ -48,14 +53,6 @@ export default function Options() {
         )}
         <DisputeComplaint />
       </div>
-      {/* {role === "Chef" ? (
-        <div>
-          You are chef
-          <Ingredients />
-        </div>
-      ) : (
-        <div>You are not chef</div>
-      )} */}
 
       <DeleteAccount />
 

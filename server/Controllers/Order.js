@@ -2,103 +2,118 @@ const Order = require("../Models/Order");
 const User = require("../Models/User");
 
 module.exports.AddOrder = async (req, res, next) => {
-	try {
-		const { orderer, items } = req.body;
-		if (!orderer || !items) {
-			return res.status(400).json({ message: "Need orderer, type, and items" });
-		}
-		const user = await User.findById(orderer);
-		if (!user) {
-			return res.status(400).json({ message: "Orderer id does not exist" });
-		}
+  try {
+    const { orderer, items, type } = req.body;
+    if (!orderer || !items) {
+      return res.status(400).json({ message: "Need orderer, type, and items" });
+    }
+    const user = await User.findById(orderer);
+    if (!user) {
+      return res.status(400).json({ message: "Orderer id does not exist" });
+    }
 
-		const order = await Order.create(
-			[{ orderer: orderer, type: user.role, items: items }],
-			{ required: true },
-		);
+    const order = await Order.create(
+      [{ orderer: orderer, type: type, items: items }],
+      { required: true }
+    );
 
-		if (!order) {
-			return res.status(500).json({ message: "Error creating order" });
-		}
-		res.status(201).json({ message: "Order Successfully created", order });
-		next();
-	} catch (error) {
-		res.status(500).json({ error });
-	}
+    if (!order) {
+      return res.status(500).json({ message: "Error creating order" });
+    }
+    res.status(201).json({ message: "Order Successfully created", order });
+    next();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 module.exports.CompleteOrder = async (req, res, next) => {
-	try {
-		const { id } = req.body;
-		if (!id) {
-			return res.status(400).json({ message: "Need order id" });
-		}
+  try {
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ message: "Need order id" });
+    }
 
-		const order = await Order.findByIdAndUpdate(
-			id,
-			{ complete: true, fulfilled:true },
-			{ new: true },
-		);
-		if (!order)
-			return res.status(400).json({ message: "Order id does not exist!" });
-		res.status(200).json({ message: "Order Successfully closed", order });
-		next();
-	} catch (error) {
-		res.status(500).json({ error });
-	}
+    const order = await Order.findByIdAndUpdate(
+      id,
+      { complete: true, fulfilled: true },
+      { new: true }
+    );
+    if (!order)
+      return res.status(400).json({ message: "Order id does not exist!" });
+    res.status(200).json({ message: "Order Successfully closed", order });
+    next();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 module.exports.GetOpenChefOrders = async (req, res, next) => {
-	try {
-		const orders = await Order.find({ type: "Chef", fulfilled: false }).lean();
-		res.status(200).json({ message: "Got all open chef orders", orders });
-		next();
-	} catch (error) {
-		res.status(500).json({ error });
-	}
+  try {
+    const orders = await Order.find({ type: "Chef", fulfilled: false }).lean();
+    res.status(200).json({ message: "Got all open chef orders", orders });
+    next();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 module.exports.GetOpenCustomerOrders = async (req, res, next) => {
-	try {
-		const orders = await Order.find({ type: "Customer", fulfilled: false }).lean();
-		res.status(200).json({ message: "Got all open customer orders", orders });
-		next();
-	} catch (error) {
-		res.status(500).json({ error });
-	}
+  try {
+    const orders = await Order.find({
+      type: "Delivery",
+      fulfilled: false,
+    }).lean();
+    res.status(200).json({ message: "Got all open customer orders", orders });
+    next();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
-module.exports.FulfillOrder = async(req,res,next)=> {
-	try{
-		const {orderId, id, role} = req.body
-		if(!orderId || !role) return res.status(400).json({ message: "Need order id and user role" });
-		if(role !== "Importer" && role !== "Chef") return res.status(400).json({ message: "given role is not an importer or chef" });
-		const result = await Order.findByIdAndUpdate(orderId, {fulfilled:true, fulfilledBy: id}, {new:true})
-		if(!result)
-			return res.status(400).json({ message: "Order id does not exist!" });
-		res.status(200).json({ message: "Order Successfully fulfilled", result });
-		next();
-	}
-	catch (error) {
-		res.status(500).json({ error });
-	}
-}
+module.exports.FulfillOrder = async (req, res, next) => {
+  try {
+    const { orderId, id, role } = req.body;
+    if (!orderId || !role)
+      return res.status(400).json({ message: "Need order id and user role" });
+    if (role !== "Importer" && role !== "Chef")
+      return res
+        .status(400)
+        .json({ message: "given role is not an importer or chef" });
+    const result = await Order.findByIdAndUpdate(
+      orderId,
+      { fulfilled: true, fulfilledBy: id },
+      { new: true }
+    );
+    if (!result)
+      return res.status(400).json({ message: "Order id does not exist!" });
+    res.status(200).json({ message: "Order Successfully fulfilled", result });
+    next();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
 
-module.exports.GetUserOrders = async(req,res,next) =>{
-	try{
-		const {id} = req.body
-		if (!id) {
-			return res.status(400).json({ message: "Need user id", id });
-		}
+module.exports.GetUserOrders = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ message: "Need user id", id });
+    }
 
-		const orders = await Order.find({orderer: id, complete:false, fulfilled:true},{}, {new:true})
-		res.status(200).json({ message: "Got all users fulfilled open orders", orders });
-		next();
-	}
-	catch (error) {
-		res.status(500).json({ error });
-	}
-}
+    const orders = await Order.find(
+      { orderer: id, complete: false, fulfilled: true },
+      {},
+      { new: true }
+    );
+    res
+      .status(200)
+      .json({ message: "Got all users fulfilled open orders", orders });
+    next();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
 /*
 	When an order is made by a customer:
 		1. the user needs to decide if its a pickup, delivery, or reservation
