@@ -326,6 +326,8 @@ body {
   padding: .8rem 1.4rem;
   cursor: pointer;
   transition: all 0.2s;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .btn:hover {

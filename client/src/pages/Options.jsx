@@ -6,6 +6,7 @@ import Balance from "../Components/Balance";
 import { useUserStore } from "../Global/userState";
 import FulfillIngredientOrder from "../Components/FulfillIngredientOrder";
 import DisputeComplaint from "../Components/DisputeComplaint";
+import HandleComplaints from "../Components/HandleComplaints";
 
 export default function Options() {
   const { id, role } = useUserStore();
@@ -13,7 +14,7 @@ export default function Options() {
   return id !== null ? (
     <div>
       <Header />
-      {role === "Manager"}
+      { role === "Manager" && <HandleComplaints />}
 
       {role === "Importer" && <FulfillIngredientOrder />}
 
@@ -48,6 +49,7 @@ export default function Options() {
         )}
         <DisputeComplaint />
       </div>
+      <DisputeComplaint />
       {/* {role === "Chef" ? (
         <div>
           You are chef

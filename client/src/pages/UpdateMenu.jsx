@@ -38,7 +38,7 @@ function Add() {
 
     if (!name) return;
 
-    const newIngredient = { name, quantity };
+    const newIngredient = { name:name.toLowerCase().trim(), quantity };
 
     setingredientList((name) => [...name, newIngredient]);
 

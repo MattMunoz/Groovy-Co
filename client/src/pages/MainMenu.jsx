@@ -62,7 +62,8 @@ export default function MainMenu() {
           updateRole(user.role),
           updateId(id),
           updateBalance(user.balance),
-          updateLevel(user.level))
+          updateLevel(user.level),
+          console.log(user.level))
         : removeCookie("token");
     };
     verifyCookie();
@@ -72,7 +73,7 @@ export default function MainMenu() {
     updateId,
     updateRole,
     updateBalance,
-    updateLevel,
+    updateLevel
   ]);
 
   useEffect(() => {
