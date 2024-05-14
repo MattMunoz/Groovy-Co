@@ -28,7 +28,7 @@ module.exports.RemoveIngredient = async(req, res, next) =>{
     }
     const ingredient = await Ingredient.findOneAndUpdate({name: name.toLowerCase().trim()}, {$inc: {quantity: -quantity}}, {new:true})
     if(!ingredient){
-      return res.json({message: `Error updating ingredient ${name} ${quantity}`})
+      return res.status(500).json({message: `Error updating ingredient ${name} ${quantity}`})
     }
     res.status(200).json({message:`Ingredient ${name} updated`, success: true, ingredient})
     next()

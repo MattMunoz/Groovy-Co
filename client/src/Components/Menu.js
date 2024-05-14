@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StarRating } from "./StarRating";
 import { useUserStore } from "../Global/userState";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function Menu({ onAddItems, foods }) {
   // const foods = [
@@ -103,6 +104,10 @@ function Food({ foodObj, addItems }) {
   function handleClick(e) {
     e.preventDefault();
     const orderItem = { name, price, quantity };
+    toast.success(`Added ${quantity} ${name}  to your order!`, {
+      position: "bottom-left",
+      hideProgressBar: true,
+    })
     console.log(orderItem);
 
     addItems(orderItem);

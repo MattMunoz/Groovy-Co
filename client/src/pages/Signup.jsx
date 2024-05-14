@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Header } from "../Components/Header";
 
 export default function Signup() {
@@ -116,7 +116,6 @@ export default function Signup() {
               Already have an account? <Link to={"/login"}>Login</Link>
             </span>
           </form>
-          <ToastContainer />
         </div>
       </div>
     </>

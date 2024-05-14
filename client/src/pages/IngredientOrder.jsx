@@ -71,7 +71,8 @@ export default function IngredientOrder(){
         "http://localhost:4000/AddOrder",
         {
           orderer: id,
-          items: update
+          items: update,
+          type: "Chef"
         })
 
       if(data) getAllIngredients()

@@ -10,23 +10,33 @@ export function OpenOrders() {
   async function completeOrder(order) {
     console.log(order._id);
     try {
-      const { data } = await axios.post("http://localhost:4000/CompleteOrder", {
-        id: order._id,
-        role: role,
+      const { data } = await axios.post("http://localhost:4000/FulfillOrder", {
+        orderId: order._id,
+        id,
+        role
       });
+      console.log(data)
+      getOpenOrders()
     } catch (e) {
       console.log(e);
     }
   }
 
+  async function getOpenOrders(){
+    try{
+      const {data} = await axios.get("http://localhost:4000/GetOpenCustomerOrders")
+      console.log(data)
+      if(data){
+        setOpenOrders(data.orders)
+      }
+    }
+    catch(e) {
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
-    fetch("http://localhost:4000/GetOpenCustomerOrders")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setOpenOrders(data.orders);
-      });
+    getOpenOrders()
   }, []);
 
   const filteredOrders = openOrders.filter((order) => order.type === "pickup");

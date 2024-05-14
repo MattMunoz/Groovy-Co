@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
 import { useUserStore } from "../Global/userState";
 
 export default function MainMenu() {
@@ -55,9 +54,7 @@ export default function MainMenu() {
       );
       const { status, user, id } = data;
       return status
-        ? (toast(`Hello ${user.role} ${user.username}`, {
-            position: "top-right",
-          }),
+        ? (
           updateUsername(user.username),
           updateRole(user.role),
           updateId(id),

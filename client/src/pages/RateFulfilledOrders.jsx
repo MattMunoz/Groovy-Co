@@ -93,6 +93,8 @@ export default function RateFulfilledOrders(){
     }
   }
 
+  /// if role is customer, show different things
+
   return(
     <>
     <Header />

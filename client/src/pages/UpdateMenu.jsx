@@ -3,7 +3,7 @@ import { Header } from "../Components/Header";
 import { Navigate } from "react-router-dom";
 import { useUserStore } from "../Global/userState";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function UpdateMenu() {
   const { role } = useUserStore();
@@ -96,7 +96,7 @@ function Add() {
     } catch (error) {
       console.log(error);
     }
-    <ToastContainer />;
+
   }
 
   console.log(foods);

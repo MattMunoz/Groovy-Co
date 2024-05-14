@@ -1,7 +1,6 @@
 import { Header } from "../Components/Header";
 import { DeleteAccount } from "../Components/DeleteAccount";
 import { Navigate, Link } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import Balance from "../Components/Balance";
 import { useUserStore } from "../Global/userState";
 import FulfillIngredientOrder from "../Components/FulfillIngredientOrder";
@@ -23,7 +22,18 @@ export default function Options() {
 
       {role === "Deliverer" && <OpenOrders />}
 
-      {role === "Customer" && <Balance />}
+      {role === "Customer" && 
+      <>
+        <Balance />
+        <Link
+              className="btn"
+              to={"/RateFulfilledOrders"}
+              style={{ textDecoration: "none", margin: "10px" }}
+            >
+              Rate Fulfilled Orders
+            </Link>
+      </>}
+
       <br />
       <div style={{ marginTop: "50px", marginLeft: "350px" }}>
         {role === "Chef" && (
@@ -66,7 +76,6 @@ export default function Options() {
 
       <DeleteAccount />
 
-      <ToastContainer limit={3} autoClose={2000} />
     </div>
   ) : (
     <Navigate to="/login" />

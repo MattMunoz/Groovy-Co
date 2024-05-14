@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useUserStore } from "../Global/userState";
 import { Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { DineInForm } from "./DineInForm";
@@ -14,11 +14,11 @@ export function Payment({ orderNo }) {
   console.log(id, userLevel, balance)
   const state = { submitButton: "" };
   const navigate = useNavigate();
-
   const [orderItems, removeItem] = useUserStore((state) => [
     state.orderItems,
     state.removeItem,
   ]);
+  console.log(orderItems)
 
   const newList = orderItems;
   const acc = newList.reduce((accumulator, item) => {
@@ -61,7 +61,7 @@ export function Payment({ orderNo }) {
     } catch (error) {
       console.log(error);
     }
-    <ToastContainer />;
+    ;
     await sleep(2000);
     try {
       const { data } = await axios.post("http://localhost:4000/AddOrder", {
@@ -76,7 +76,21 @@ export function Payment({ orderNo }) {
     console.log(orderType);
     clearOrderItems();
     navigate("/");
+    
+    try{
+      
+      for(const item of orderItems){
+        const update = await axios.post(
+          "http://localhost:4000/RemoveIngredient",
+          {name:item.name, quantity:item.quantity}
+        )
+        console.log(update)
+      }
+    } catch(e){
+      console.log(e)
+    }
   }
+  
   const discount = userLevel * 10;
 
   const total = (acc * (100 - discount)) / 100;
@@ -143,7 +157,7 @@ export function Payment({ orderNo }) {
           <Link className="btn" onClick={balancePayment} to={"/"}>
             Place Order
           </Link>
-          <ToastContainer />
+          
         </>
       ) : (
         ""
@@ -153,7 +167,7 @@ export function Payment({ orderNo }) {
           <button type="button" className="btn" onClick={errorMoney}>
             Place Order
           </button>
-          <ToastContainer />
+          
         </div>
       ) : (
         ""
@@ -163,7 +177,7 @@ export function Payment({ orderNo }) {
           <button className="btn" to={"/"} onClick={errorOrder}>
             Place Order
           </button>
-          <ToastContainer />
+          
         </div>
       ) : (
         ""

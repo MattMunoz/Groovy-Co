@@ -76,7 +76,7 @@ module.exports.FulfillOrder = async (req, res, next) => {
     const { orderId, id, role } = req.body;
     if (!orderId || !role)
       return res.status(400).json({ message: "Need order id and user role" });
-    if (role !== "Importer" && role !== "Chef")
+    if (role !== "Importer" && role !== "Chef" && role !== "Deliverer")
       return res
         .status(400)
         .json({ message: "given role is not an importer or chef" });

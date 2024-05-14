@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Header } from "../Components/Header";
 import { Redirect } from "react-router-dom";
 
@@ -93,7 +93,6 @@ export default function Login() {
               Don't have an account yet? <Link to={"/signup"}>Signup</Link>
             </span>
           </form>
-          <ToastContainer />
         </div>
       </div>
     </>
