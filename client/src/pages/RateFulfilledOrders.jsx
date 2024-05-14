@@ -49,9 +49,24 @@ export default function RateFulfilledOrders(){
     }
   } 
 
-  async function complainFraud(){
+  async function complainFraud(order){
     try{
-
+      if(order.fulfilledBy){
+        const complaint = await axios.post(
+          "http://localhost:4000/FileComplaint",
+          {
+            from:id,
+            to:order.fulfilledBy,
+            type:"fraud"
+          }
+        )
+        const orderRes = await axios.post(
+          "http://localhost:4000/CompleteOrder",
+          {id:order._id}
+        )
+        console.log(complaint)
+        getOpenOrders()
+      }
     } catch(e){
       console.log(e)
     }
@@ -114,7 +129,7 @@ export default function RateFulfilledOrders(){
             <button className="btn" onClick={()=>compliment(order)}>Compliment Order</button>
           </div>
           <div className="ingredient-item">
-            <button className="btn" >Complain Fraud</button>
+            <button className="btn" onClick={()=>complainFraud(order)}>Complain Fraud</button>
           </div>
           </div>
         

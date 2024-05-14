@@ -6,6 +6,7 @@ import Balance from "../Components/Balance";
 import { useUserStore } from "../Global/userState";
 import FulfillIngredientOrder from "../Components/FulfillIngredientOrder";
 import DisputeComplaint from "../Components/DisputeComplaint";
+import HandleComplaints from "../Components/HandleComplaints";
 import { OpenOrders } from "../Components/OpenOrders";
 
 export default function Options() {
@@ -16,7 +17,7 @@ export default function Options() {
   return id !== null ? (
     <div>
       <Header />
-      {role === "Manager"}
+      {role === "Manager" && <HandleComplaints />}
 
       {role === "Importer" && <FulfillIngredientOrder />}
 
@@ -53,6 +54,15 @@ export default function Options() {
         )}
         <DisputeComplaint />
       </div>
+      <DisputeComplaint />
+      {/* {role === "Chef" ? (
+        <div>
+          You are chef
+          <Ingredients />
+        </div>
+      ) : (
+        <div>You are not chef</div>
+      )} */}
 
       <DeleteAccount />
 

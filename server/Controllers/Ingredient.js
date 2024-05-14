@@ -6,7 +6,7 @@ module.exports.AddIngredient = async(req, res, next) =>{
     if(!name || !quantity){
       return res.json({message: "Invalid name or quantity"})
     }
-    const ingredient = await Ingredient.findOneAndUpdate({name: name}, {$inc: {quantity: quantity}}, {new:true, upsert: true})
+    const ingredient = await Ingredient.findOneAndUpdate({name: name.toLowerCase().trim()}, {$inc: {quantity: quantity}}, {new:true, upsert: true})
     if(!ingredient){
       return res.json({message: `Error updating ingredient ${name} ${quantity} `})
     }
@@ -26,7 +26,7 @@ module.exports.RemoveIngredient = async(req, res, next) =>{
     if(!name || !quantity){
       return res.json({message: "Invalid name or quantity"})
     }
-    const ingredient = await Ingredient.findOneAndUpdate({name: name}, {$inc: {quantity: -quantity}}, {new:true})
+    const ingredient = await Ingredient.findOneAndUpdate({name: name.toLowerCase().trim()}, {$inc: {quantity: -quantity}}, {new:true})
     if(!ingredient){
       return res.json({message: `Error updating ingredient ${name} ${quantity}`})
     }

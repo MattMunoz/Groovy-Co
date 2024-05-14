@@ -13,6 +13,15 @@ export default function DisputeComplaint(){
         "http://localhost:4000/GetUndisputedComplaints",
         {id}
       );
+
+      for(const complaint of data.complaints){
+        const fromName = await axios.post(
+          "http://localhost:4000/GetUser",
+          {id: complaint.from}
+        )
+        complaint.fromName = fromName.data.user.username
+        // console.log(complaint)
+      }
       console.log(data)
       setUndisputedComplaints(data.complaints);
     } catch (e) {
@@ -61,33 +70,38 @@ export default function DisputeComplaint(){
     <Fragment key={complaint._id}> 
     
       <div>Complaints aganist you</div>
-      <div className="order-container">
-      {/* <div className="order-item">
-          <b>{()=> getChefName(order.orderer)}</b>
+      <div className="ingredients-container">
+      {/* <div className="ingredients-item">
+          <b>{()=> getChefName(ingredients.ingredientser)}</b>
         </div>
-        <div className="order-item">
+        <div className="ingredients-item">
           <b>Quantity:</b>
         </div> */}
-        <div className="order-item">
+        <div className="ingredients-item">
           <b>From:</b>
         </div>
-        <div className="order-item">
+        <div className="ingredients-item">
+          <b>Type:</b>
+        </div>
+        <div className="ingredients-item">
           <b>Dispute:</b>
         </div>
         
           
-            <div className="order-item"> {complaint.from} </div>
-            <div className="order-item">
+            <div className="ingredients-item"> {complaint.fromName} </div>
+            <div className="ingredients-item"> {complaint.type} </div>
+            <div className="ingredients-item">
             <textarea className="textBox" onChange={(e)=>setDispute(e.target.value)} />
             </div>
           
        
 
-        <div className="order-item">
+        <div className="ingredients-item">
         <button className="btn" onClick={()=> ignoreComplaint(complaint)} >Ignore Complaint</button>
         </div>
+        <div className="ingredients-item" />
 
-        <div className="order-item">
+        <div className="ingredients-item">
           <button className="btn" onClick={()=> submitDispute(complaint)} >Submit Dispute</button>
         </div>
       </div>

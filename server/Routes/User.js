@@ -5,7 +5,7 @@ router.post("/Deposit", Deposit);
 router.post("/Withdraw", Withdraw)
 router.post("/IncreaseStanding", IncreaseStanding)
 router.post("/DecreaseStanding", DecreaseStanding)
-router.get("/GetUser", GetUser)
+router.post("/GetUser", GetUser)
 router.delete("/DeleteUser", DeleteUser)
 
 module.exports = router;

@@ -25,6 +25,7 @@ module.exports.AddDish = async (req, res, next) => {
 		
 		else{
 	    for (const item of ingredients) {
+        item.name= item.name.toLowerCase().trim()
 	      const ing = stock.find((ing) => ing.name === item.name);
 	      if (!ing || (ing && ing.quantity < item.quantity)) {
 	        soldOut = true;
@@ -57,6 +58,7 @@ module.exports.EditDish = async (req, res, next) => {
       ).lean();
       let soldOut = false;
       for (const item of value) {
+        item.name = item.name.toLowerCase().trim()
         const ing = stock.find((ing) => ing.name === item.name);
         if (!ing || (ing && ing.quantity < item.quantity)) {
           soldOut = true;

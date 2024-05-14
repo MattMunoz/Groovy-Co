@@ -70,6 +70,12 @@ export default function FulfillIngredientOrder() {
           )
           console.log(result)
         }
+
+        const soldOut = await axios.post(
+          "http://localhost:4000/UpdateSoldOut"
+        )
+        console.log(soldOut)
+
         } catch(e){
           console.log("Error updating ingredients")
           console.log(e)

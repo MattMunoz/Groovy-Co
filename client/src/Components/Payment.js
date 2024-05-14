@@ -10,8 +10,8 @@ import { DeliveryForm } from "./DeliveryForm";
 export function Payment({ orderNo }) {
   const [orderType, setOrderType] = useState("Delivery");
   const [clearOrderItems] = useUserStore((state) => [state.clearOrderItems]);
-  const { id, level, balance, updateBalance } = useUserStore();
-  // console.log(username, id)
+  const { id, userLevel, balance, updateBalance } = useUserStore();
+  console.log(id, userLevel, balance)
   const state = { submitButton: "" };
   const navigate = useNavigate();
 
@@ -77,8 +77,7 @@ export function Payment({ orderNo }) {
     clearOrderItems();
     navigate("/");
   }
-
-  const discount = level * 10;
+  const discount = userLevel * 10;
 
   const total = (acc * (100 - discount)) / 100;
 
@@ -101,11 +100,11 @@ export function Payment({ orderNo }) {
         ))}
       </ul>
       {/* <div className="line"></div> */}
-      {level !== 0 ? (
+      {userLevel !== 0 ? (
         ""
       ) : (
         <div>
-          {level === 0 ? (
+          {userLevel === 0 ? (
             ""
           ) : (
             <div style={{ display: "flex" }}>
