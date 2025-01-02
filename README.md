@@ -35,7 +35,7 @@ CFS was built on React and Node.js using MongoDB. The following packages were al
  
 ## Reports
 
-A more comprehensive overview of each section of the project can be found in the three reports: 
+A more comprehensive overview of each section of the project can be found in the following reports: 
 - [Software Requirement Specifications Report](https://github.com/MattMunoz/Groovy-Co/blob/main/Report/Csc%20322%20Report%20%231.pdf)
 - [Design Report](https://github.com/MattMunoz/Groovy-Co/blob/main/Report/Csc%20322%20Report%20%232.pdf)
 - [Final Report](https://github.com/MattMunoz/Groovy-Co/blob/main/Report/Csc%20332%20Report%20%233.pdf)
