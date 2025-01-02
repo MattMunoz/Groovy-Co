@@ -1,6 +1,8 @@
 ## Team Members
 - Matthew Munoz
 - Tyler Ortiz
+- Joseph Platt
+- Johnathan Lee
 
 ## Scope
 
