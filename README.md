@@ -8,13 +8,13 @@ CFS aims to create a digital counterpart to the physical restaurant business. Us
 
 ## Overview
 
-CFS was built on React and Node.js using MongoDB. The following packages were also used
+CFS was built on React and Node.js using MongoDB. The following packages were also used:
 
 - Axios
 - Toastify
 - Navigate
 - Zustand
-- Coockies
+- Cookies
 
 
 
@@ -31,3 +31,9 @@ CFS was built on React and Node.js using MongoDB. The following packages were al
 | Manager | User responsible for managing the employees, with the capability of hiring and firing as needed. |
 | Surfer |  A user who can only browse the menu with the possibility of becoming a customer after application.  |
  
+## Reports
+
+A more comprehensive overview of each section of the project can be found in the three reports: 
+- [Software Requirement Specifications Report](https://github.com/MattMunoz/Groovy-Co/blob/main/Report/Csc%20322%20Report%20%231.pdf)
+- [Design Report](https://github.com/MattMunoz/Groovy-Co/blob/main/Report/Csc%20322%20Report%20%232.pdf)
+- [Final Report](https://github.com/MattMunoz/Groovy-Co/blob/main/Report/Csc%20332%20Report%20%233.pdf)
