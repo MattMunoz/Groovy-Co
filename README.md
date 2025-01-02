@@ -6,7 +6,7 @@
 
 ## Scope
 
-CFS aims to create a digital counterpart to the physical restaurant business. Users will include customers, managers, cooks, and delivery personnel. Every user will have personal credentials that allow them specific permissions adhering to their roles. It will create a quick and convenient version of something most users are already familiar with, with a much smaller form factor and a quicker response time. 
+Groovy Co. aims to create a digital counterpart to the physical restaurant business. Users will include customers, managers, cooks, and delivery personnel. Every user will have personal credentials that allow them specific permissions adhering to their roles. It will create a quick and convenient version of something most users are already familiar with, with a much smaller form factor and a quicker response time. 
 
 ## Overview
 
